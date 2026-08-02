@@ -166,6 +166,13 @@ header {
 .rak { background: linear-gradient(135deg, #BF0000, #E60012); color: #fff; }
 .amz { background: linear-gradient(135deg, #FF9900, #F08804); color: #000; }
 
+.liveBox { display:flex; gap:10px; align-items:center; margin:0 0 14px; padding:10px;
+  border-radius:10px; background:rgba(255,255,255,0.04); border:1px solid var(--line); }
+.liveImg { width:52px; height:52px; object-fit:cover; border-radius:6px; flex-shrink:0; background:#222; }
+.liveTxt { min-width:0; }
+.liveName { font-size:12px; color:rgba(255,255,255,0.75); line-height:1.5;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.liveShop { font-size:11px; color:rgba(255,255,255,0.4); margin-top:3px; }
 .rerollBtn {
   margin-top: 20px; width: 100%; padding: 16px; border-radius: 12px; border: none;
   background: linear-gradient(135deg, #C8A84B, #a8893b); color: #000;
@@ -179,6 +186,12 @@ header {
 button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
   outline: 2px solid var(--gold); outline-offset: 2px;
 }
+footer.disclosure {
+  max-width: 520px; margin: 0 auto;
+  padding: 0 20px calc(28px + env(safe-area-inset-bottom));
+  font-size: 11px; color: rgba(255,255,255,0.35);
+  text-align: center; line-height: 1.6;
+}
 </style>
 </head>
 <body>
@@ -191,7 +204,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 </header>
 <main id="app"></main>
 <footer class="disclosure">※本アプリの「楽天で探す」「Amazonで探す」リンクにはアフィリエイト広告を含みます。</footer>
-<style>footer.disclosure{max-width:520px;margin:0 auto;padding:0 20px 28px;font-size:11px;color:rgba(255,255,255,0.35);text-align:center;line-height:1.6;}</style>
 <script>
 const WINE_TYPES = [
   { id: "red", label: "赤ワイン", icon: "🍷", color: "#8B1A1A" },
@@ -238,7 +250,6 @@ const WINE_DB = [
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "サンタ・ヘレナ レゼルバ カベルネ", producer: "サンタ・ヘレナ", region: "チリ", price: 1100, priceLabel: "約1,100円", desc: "上位ライン。スパイス感と凝縮味。", tags: ["ミディアム", "コスパ良", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "サンタ・カロリーナ カベルネ・レゼルバ", producer: "サンタ・カロリーナ", region: "チリ", price: 1200, priceLabel: "約1,200円", desc: "チリの定番。バランス良し。", tags: ["ミディアム", "デイリー", "コスパ良"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "テラ・ヴィーガ カベルネ・ソーヴィニヨン", producer: "テラ・ヴィーガ", region: "チリ", price: 1000, priceLabel: "約1,000円", desc: "果実の凝縮感と程よいタンニン。", tags: ["デイリー", "コスパ良", "肉料理"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "ペリカン カベルネ", producer: "ヴィニコラ・サン・ペドロ", region: "チリ", price: 900, priceLabel: "約900円", desc: "親しみやすいデイリーカベルネ。", tags: ["デイリー", "コスパ良", "まろやか"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "コノスル カベルネ・ソーヴィニヨン ヴァラエタル", producer: "コノスル", region: "チリ", price: 1100, priceLabel: "約1,100円", desc: "黒系果実の凝縮感とスパイス香。", tags: ["フルボディ", "スパイシー", "コスパ良"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "コノスル ビシクレタ カベルネ", producer: "コノスル", region: "チリ", price: 1000, priceLabel: "約1,000円", desc: "コノスルの自転車ラベル。デイリー定番。", tags: ["デイリー", "コスパ良", "果実味"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "イエローテイル カベルネ・ソーヴィニヨン", producer: "カセラ", region: "オーストラリア", price: 1300, priceLabel: "約1,300円", desc: "凝縮感ある果実味でハンバーグやステーキに。", tags: ["フルボディ", "デイリー", "肉料理"] },
@@ -250,7 +261,6 @@ const WINE_DB = [
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "アラモス カベルネ・ソーヴィニヨン", producer: "アラモス", region: "アルゼンチン", price: 1500, priceLabel: "約1,500円", desc: "アルゼンチンの実力派デイリー。", tags: ["フルボディ", "肉料理", "コスパ良"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "コノスル レゼルバ カベルネ・ソーヴィニヨン", producer: "コノスル", region: "チリ", price: 1700, priceLabel: "約1,700円", desc: "ヴァラエタルの上位版。複雑味と樽香が増す。", tags: ["フルボディ", "コスパ良", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "ロバート・モンダヴィ ウッドブリッジ カベルネ", producer: "ロバート・モンダヴィ", region: "カリフォルニア", price: 1800, priceLabel: "約1,800円", desc: "カシスやバニラの香り、滑らかなタンニン。", tags: ["ミディアム", "バランス型", "食事向き"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "サタデー・ナイト カベルネ", producer: "ロバート・モンダヴィ", region: "カリフォルニア", price: 1900, priceLabel: "約1,900円", desc: "週末の夜に開けたくなる満足感。", tags: ["ミディアム", "食事向き", "果実味"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "コロンビア・クレスト H3 カベルネ", producer: "コロンビア・クレスト", region: "ワシントン", price: 2000, priceLabel: "約2,000円", desc: "果実味と樽香のバランス良し。BBQに。", tags: ["フルボディ", "肉料理", "コスパ良"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "ベリンジャー ファウンダーズ・エステート カベルネ", producer: "ベリンジャー", region: "カリフォルニア", price: 2200, priceLabel: "約2,200円", desc: "カリフォルニア・カベルネの入門編。", tags: ["ミディアム", "食事向き", "バランス型"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "ボーグル ヴィンヤーズ カベルネ", producer: "ボーグル", region: "カリフォルニア", price: 2300, priceLabel: "約2,300円", desc: "コスパ良いカリフォルニア・カベルネ。", tags: ["フルボディ", "コスパ良", "肉料理"] },
@@ -318,27 +328,20 @@ const WINE_DB = [
   { type: "red", grape: "メルロー", name: "コノスル ビシクレタ メルロー", producer: "コノスル", region: "チリ", price: 1000, priceLabel: "約1,000円", desc: "自転車ラベルのデイリーメルロー。", tags: ["デイリー", "まろやか", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "コノスル メルロー ヴァラエタル", producer: "コノスル", region: "チリ", price: 1100, priceLabel: "約1,100円", desc: "ベリーの香りと柔らかなタンニン。", tags: ["まろやか", "デイリー", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "サンタ・カロリーナ メルロー", producer: "サンタ・カロリーナ", region: "チリ", price: 900, priceLabel: "約900円", desc: "デイリー価格のチリメルロー。", tags: ["デイリー", "まろやか", "コスパ良"] },
-  { type: "red", grape: "メルロー", name: "サン・ホセ メルロー", producer: "サン・ホセ", region: "チリ", price: 1000, priceLabel: "約1,000円", desc: "若い果実味で気軽に飲める。", tags: ["デイリー", "コスパ良", "まろやか"] },
   { type: "red", grape: "メルロー", name: "イエローテイル メルロー", producer: "カセラ", region: "オーストラリア", price: 1300, priceLabel: "約1,300円", desc: "親しみやすいオージーメルロー。", tags: ["デイリー", "まろやか", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "リンデマンズ ビン40 メルロー", producer: "リンデマンズ", region: "オーストラリア", price: 1300, priceLabel: "約1,300円", desc: "オーストラリアの定番メルロー。", tags: ["デイリー", "まろやか", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "ジェイコブズ・クリーク メルロー", producer: "ジェイコブズ・クリーク", region: "オーストラリア", price: 1400, priceLabel: "約1,400円", desc: "オージーのスタンダードメルロー。", tags: ["デイリー", "果実味", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "ウルフ・ブラス イエローラベル メルロー", producer: "ウルフ・ブラス", region: "オーストラリア", price: 1400, priceLabel: "約1,400円", desc: "親しみやすい果実味。", tags: ["デイリー", "まろやか", "コスパ良"] },
-  { type: "red", grape: "メルロー", name: "デュック・ド・モンターニュ", producer: "ゴロムベック", region: "ボルドー", price: 1400, priceLabel: "約1,400円", desc: "親しみやすい価格のボルドーメルロー。", tags: ["デイリー", "ボルドー", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "コノスル レゼルバ メルロー", producer: "コノスル", region: "チリ", price: 1700, priceLabel: "約1,700円", desc: "コノスルの上位ライン。", tags: ["ミディアム", "コスパ良", "食事向き"] },
   { type: "red", grape: "メルロー", name: "ファルネーゼ メルロー", producer: "ファルネーゼ", region: "イタリア", price: 1500, priceLabel: "約1,500円", desc: "イタリア南部の凝縮感あるメルロー。", tags: ["フルボディ", "イタリアン", "コスパ良"] },
-  { type: "red", grape: "メルロー", name: "ドゥッカ メルロー", producer: "ドゥッカ", region: "イタリア", price: 1100, priceLabel: "約1,100円", desc: "イタリアらしい明るい酸のメルロー。", tags: ["デイリー", "イタリアン", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "コロンビア・クレスト グランド・エステート メルロー", producer: "コロンビア・クレスト", region: "ワシントン", price: 1700, priceLabel: "約1,700円", desc: "深い果実味と滑らかな質感。", tags: ["ミディアム", "まろやか", "食事向き"] },
   { type: "red", grape: "メルロー", name: "ロバート・モンダヴィ ウッドブリッジ メルロー", producer: "ロバート・モンダヴィ", region: "カリフォルニア", price: 1800, priceLabel: "約1,800円", desc: "プラムとチョコの香り。やわらかい。", tags: ["ミディアム", "まろやか", "デイリー"] },
-  { type: "red", grape: "メルロー", name: "シャトー・ラ・カルディーヌ", producer: "シャトー・ラ・カルディーヌ", region: "ボルドー", price: 1800, priceLabel: "約1,800円", desc: "ボルドーらしい構造感のメルロー。", tags: ["ミディアム", "ボルドー", "食事向き"] },
   { type: "red", grape: "メルロー", name: "シャトー・ラ・フルール・ペイラボン", producer: "シャトー・ラ・フルール", region: "ボルドー", price: 2300, priceLabel: "約2,300円", desc: "メルロー主体のエレガントなボルドー。", tags: ["エレガント", "ボルドー", "食事向き"] },
   { type: "red", grape: "メルロー", name: "クロ・ラ・グラヴェット メルロー", producer: "クロ・ラ・グラヴェット", region: "ボルドー", price: 1900, priceLabel: "約1,900円", desc: "果実味豊かでバランス良し。", tags: ["ミディアム", "ボルドー", "食事向き"] },
   { type: "red", grape: "メルロー", name: "ストーンリー メルロー", producer: "ストーンリー", region: "ワシントン", price: 2400, priceLabel: "約2,400円", desc: "プラムと甘いスパイスのアロマ。", tags: ["ミディアム", "まろやか", "食事向き"] },
-  { type: "red", grape: "メルロー", name: "コルテレッツィオ メルロー", producer: "コルテレッツィオ", region: "イタリア", price: 1700, priceLabel: "約1,700円", desc: "ベネトのバランス型メルロー。", tags: ["ミディアム", "イタリアン", "食事向き"] },
-  { type: "red", grape: "メルロー", name: "シャトー・ペナンテ", producer: "シャトー・ペナンテ", region: "ボルドー", price: 1900, priceLabel: "約1,900円", desc: "コスパ良いボルドー右岸メルロー。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "シャトー・ラリヴェ", producer: "シャトー・ラリヴェ", region: "ボルドー", price: 2200, priceLabel: "約2,200円", desc: "コスパ良いメルロー主体のボルドー。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "ボーヌ・デュ・シャトー メルロー", producer: "ジョセフ・ドルーアン", region: "ブルゴーニュ近郊", price: 2500, priceLabel: "約2,500円", desc: "プラムやチョコレートの香り。", tags: ["ミディアム", "食事向き", "フランス"] },
   { type: "red", grape: "メルロー", name: "シャトー・モン・ペラ メルロー", producer: "デスパーニュ家", region: "ボルドー", price: 2800, priceLabel: "約2,800円", desc: "モン・ペラのメルロー主体ライン。", tags: ["エレガント", "ボルドー", "贈り物向き"] },
-  { type: "red", grape: "メルロー", name: "シャトー・カディヤック", producer: "シャトー・カディヤック", region: "ボルドー", price: 2200, priceLabel: "約2,200円", desc: "コスパ良い右岸メルロー。", tags: ["ミディアム", "ボルドー", "食事向き"] },
   { type: "red", grape: "メルロー", name: "ドメーヌ・トゥール・ヴィエイユ", producer: "トゥール・ヴィエイユ", region: "サン・テミリオン", price: 3500, priceLabel: "約3,500円", desc: "右岸の名門エリアの良質メルロー。", tags: ["エレガント", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "メルロー", name: "クロ・カントネ", producer: "クロ・カントネ", region: "サン・テミリオン", price: 4500, priceLabel: "約4,500円", desc: "コスパに優れた右岸メルロー。", tags: ["エレガント", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "メルロー", name: "シャトー・ラ・トゥール・フィジャック", producer: "シャトー・ラ・トゥール・フィジャック", region: "サン・テミリオン", price: 5500, priceLabel: "約5,500円", desc: "サン・テミリオンの実力派。", tags: ["エレガント", "ボルドー", "贈り物向き"] },
@@ -355,7 +358,6 @@ const WINE_DB = [
   { type: "red", grape: "メルロー", name: "シャトー・ベリュス", producer: "シャトー・ベリュス", region: "ポムロール", price: 25000, priceLabel: "約25,000円", desc: "ポムロールの実力派。", tags: ["プレミアム", "ボルドー", "記念日"] },
   { type: "red", grape: "メルロー", name: "シャトー・ペトリュス", producer: "シャトー・ペトリュス", region: "ポムロール", price: 350000, priceLabel: "約350,000円〜", desc: "世界最高峰のメルロー。極めて稀少。", tags: ["プレミアム", "稀少", "コレクション"] },
   { type: "red", grape: "メルロー", name: "シャトー・ル・パン", producer: "シャトー・ル・パン", region: "ポムロール", price: 280000, priceLabel: "約280,000円〜", desc: "ポムロールのカルトワイン。", tags: ["プレミアム", "稀少", "コレクション"] },
-  { type: "red", grape: "メルロー", name: "ペトリュス・セカンド", producer: "シャトー・ペトリュス", region: "ポムロール", price: 65000, priceLabel: "約65,000円", desc: "ペトリュスのセカンド的位置づけ。", tags: ["プレミアム", "稀少", "コレクション"] },
   { type: "red", grape: "メルロー", name: "ダックホーン メルロー", producer: "ダックホーン", region: "ナパ", price: 8500, priceLabel: "約8,500円", desc: "ナパのメルロー名門。", tags: ["フルボディ", "ナパ", "贈り物向き"] },
   { type: "red", grape: "メルロー", name: "ダックホーン スリーパームズ", producer: "ダックホーン", region: "ナパ", price: 18000, priceLabel: "約18,000円", desc: "ダックホーン最上級メルロー。", tags: ["プレミアム", "ナパ", "記念日"] },
   { type: "red", grape: "メルロー", name: "シャトー・ステ・ミシェル メルロー", producer: "シャトー・ステ・ミシェル", region: "ワシントン", price: 2200, priceLabel: "約2,200円", desc: "ワシントンの定番メルロー。", tags: ["ミディアム", "食事向き", "コスパ良"] },
@@ -371,7 +373,6 @@ const WINE_DB = [
   { type: "red", grape: "メルロー", name: "ヴィエティ メルロー", producer: "ヴィエティ", region: "ピエモンテ", price: 3500, priceLabel: "約3,500円", desc: "ピエモンテの実力派メルロー。", tags: ["エレガント", "イタリアン", "贈り物向き"] },
   { type: "red", grape: "メルロー", name: "オルネライア セレ・ヌオーヴェ", producer: "オルネライア", region: "トスカーナ", price: 7500, priceLabel: "約7,500円", desc: "オルネライアのメルロー主体セカンド。", tags: ["プレミアム", "イタリアン", "記念日"] },
   { type: "red", grape: "メルロー", name: "マッセート", producer: "オルネライア", region: "トスカーナ", price: 95000, priceLabel: "約95,000円", desc: "イタリア最高峰のメルロー。", tags: ["プレミアム", "コレクション", "稀少"] },
-  { type: "red", grape: "メルロー", name: "イル・ピアジオーネ メルロー", producer: "イル・ピアジオーネ", region: "トスカーナ", price: 1500, priceLabel: "約1,500円", desc: "トスカーナ産のデイリーメルロー。", tags: ["デイリー", "イタリアン", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "ファルネーゼ ファンティーニ メルロー", producer: "ファルネーゼ", region: "イタリア", price: 1100, priceLabel: "約1,100円", desc: "コスパ抜群のイタリア南部メルロー。", tags: ["デイリー", "イタリアン", "コスパ良"] },
   { type: "red", grape: "ピノ・ノワール", name: "アルパカ ピノ・ノワール", producer: "サンタ・ヘレナ", region: "チリ", price: 600, priceLabel: "約600円", desc: "ライトボディで毎日の晩酌に。", tags: ["デイリー", "軽め", "コスパ良"] },
   { type: "red", grape: "ピノ・ノワール", name: "サンライズ ピノ・ノワール", producer: "コンチャ・イ・トロ", region: "チリ", price: 800, priceLabel: "約800円", desc: "明るい果実味で気軽に楽しめる。", tags: ["デイリー", "軽め", "コスパ良"] },
@@ -381,7 +382,6 @@ const WINE_DB = [
   { type: "red", grape: "ピノ・ノワール", name: "リンデマンズ ビン99 ピノ・ノワール", producer: "リンデマンズ", region: "オーストラリア", price: 1300, priceLabel: "約1,300円", desc: "気軽に楽しめるピノ。チェリーの香り。", tags: ["デイリー", "軽め", "コスパ良"] },
   { type: "red", grape: "ピノ・ノワール", name: "イエローテイル ピノ・ノワール", producer: "カセラ", region: "オーストラリア", price: 1300, priceLabel: "約1,300円", desc: "オージーの親しみやすいピノ。", tags: ["デイリー", "軽め", "コスパ良"] },
   { type: "red", grape: "ピノ・ノワール", name: "サンタ・カロリーナ ピノ・ノワール", producer: "サンタ・カロリーナ", region: "チリ", price: 1100, priceLabel: "約1,100円", desc: "チリ産のデイリーピノ。", tags: ["デイリー", "華やか", "コスパ良"] },
-  { type: "red", grape: "ピノ・ノワール", name: "ワインアルケミスト ピノ・ノワール", producer: "ワインアルケミスト", region: "オーストラリア", price: 1400, priceLabel: "約1,400円", desc: "親しみやすい価格のオージーピノ。", tags: ["デイリー", "軽め", "コスパ良"] },
   { type: "red", grape: "ピノ・ノワール", name: "コノスル レゼルバ ピノ・ノワール", producer: "コノスル", region: "チリ", price: 1700, priceLabel: "約1,700円", desc: "ヴァラエタルの上位版。複雑味アップ。", tags: ["ミディアム", "華やか", "食事向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "サン・ペドロ 1865 ピノ・ノワール", producer: "サン・ペドロ", region: "チリ", price: 2200, priceLabel: "約2,200円", desc: "チリの上質ピノ。", tags: ["ミディアム", "華やか", "食事向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "モンテス アルファ ピノ・ノワール", producer: "モンテス", region: "チリ", price: 2500, priceLabel: "約2,500円", desc: "モンテスのプレミアムピノ。", tags: ["エレガント", "贈り物向き", "食事向き"] },
@@ -423,7 +423,6 @@ const WINE_DB = [
   { type: "red", grape: "ピノ・ノワール", name: "オレゴン アデルスハイム ピノ", producer: "アデルスハイム", region: "オレゴン", price: 4500, priceLabel: "約4,500円", desc: "オレゴンの代表的なピノ。", tags: ["エレガント", "ニューワールド", "食事向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "アーガイル ピノ・ノワール", producer: "アーガイル", region: "オレゴン", price: 4200, priceLabel: "約4,200円", desc: "オレゴンの定番ピノ。", tags: ["エレガント", "ニューワールド", "食事向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "ドメーヌ・ドルーアン オレゴン", producer: "ドメーヌ・ドルーアン", region: "オレゴン", price: 6500, priceLabel: "約6,500円", desc: "ドルーアンがオレゴンで造る逸品。", tags: ["エレガント", "贈り物向き", "ニューワールド"] },
-  { type: "red", grape: "ピノ・ノワール", name: "ベルガナ オレゴン ピノ", producer: "ベルガナ", region: "オレゴン", price: 3800, priceLabel: "約3,800円", desc: "オレゴンの実力派。", tags: ["エレガント", "ニューワールド", "食事向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "クリストム ピノ・ノワール", producer: "クリストム", region: "オレゴン", price: 6500, priceLabel: "約6,500円", desc: "オレゴンの名門ワイナリー。", tags: ["エレガント", "贈り物向き", "ニューワールド"] },
   { type: "red", grape: "ピノ・ノワール", name: "ドメーヌ・ルロワ ブルゴーニュ", producer: "ドメーヌ・ルロワ", region: "ブルゴーニュ", price: 25000, priceLabel: "約25,000円", desc: "世界中のワイン愛好家を魅了する。", tags: ["プレミアム", "記念日", "コレクション"] },
   { type: "red", grape: "ピノ・ノワール", name: "ロマネ・コンティ", producer: "ドメーヌ・ド・ラ・ロマネ・コンティ", region: "ブルゴーニュ", price: 3500000, priceLabel: "約3,500,000円〜", desc: "世界最高峰、ピノ・ノワールの頂点。", tags: ["プレミアム", "稀少", "コレクション"] },
@@ -437,7 +436,6 @@ const WINE_DB = [
   { type: "red", grape: "ピノ・ノワール", name: "キスラー ピノ・ノワール", producer: "キスラー", region: "ソノマ", price: 12000, priceLabel: "約12,000円", desc: "ソノマの伝説的ピノ。", tags: ["プレミアム", "ナパ", "記念日"] },
   { type: "red", grape: "ピノ・ノワール", name: "オーボン・クリマ ピノ・ノワール", producer: "オーボン・クリマ", region: "カリフォルニア", price: 5500, priceLabel: "約5,500円", desc: "サンタ・バーバラの名手。", tags: ["エレガント", "ナパ", "贈り物向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "ピゾーニ ピノ・ノワール", producer: "ピゾーニ", region: "カリフォルニア", price: 9500, priceLabel: "約9,500円", desc: "サンタ・ルチア・ハイランドの銘酒。", tags: ["プレミアム", "ナパ", "記念日"] },
-  { type: "red", grape: "ピノ・ノワール", name: "シーザン ピノ・ノワール", producer: "シーザン", region: "オレゴン", price: 4500, priceLabel: "約4,500円", desc: "オレゴンの実力派。", tags: ["エレガント", "ニューワールド", "食事向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "ロアー ピノ・ノワール", producer: "ロアー", region: "カリフォルニア", price: 8500, priceLabel: "約8,500円", desc: "サンタ・ルチアの上質ピノ。", tags: ["エレガント", "贈り物向き", "ナパ"] },
   { type: "red", grape: "シラー", name: "イエローテイル シラーズ", producer: "カセラ", region: "オーストラリア", price: 900, priceLabel: "約900円", desc: "黒胡椒のスパイス感と凝縮した果実味。", tags: ["スパイシー", "フルーティー", "コスパ良"] },
   { type: "red", grape: "シラー", name: "アルパカ シラー", producer: "サンタ・ヘレナ", region: "チリ", price: 600, priceLabel: "約600円", desc: "デイリー価格のスパイシーシラー。", tags: ["デイリー", "スパイシー", "コスパ良"] },
@@ -482,30 +480,20 @@ const WINE_DB = [
   { type: "red", grape: "シラー", name: "ギガル コート・ロティ ラ・ランドンヌ", producer: "ギガル", region: "ローヌ", price: 55000, priceLabel: "約55,000円", desc: "ギガルの三大単一畑のひとつ。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "red", grape: "シラー", name: "ギガル コート・ロティ ラ・テュルク", producer: "ギガル", region: "ローヌ", price: 55000, priceLabel: "約55,000円", desc: "ギガルの三大単一畑のひとつ。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "red", grape: "シラー", name: "シャトー・ド・ボーカステル コート・デュ・ローヌ", producer: "ボーカステル", region: "ローヌ", price: 4500, priceLabel: "約4,500円", desc: "ローヌ南部の名門。シラー比率高め。", tags: ["フルボディ", "ローヌ", "贈り物向き"] },
-  { type: "red", grape: "シラー", name: "ヴォーグレネック シラー", producer: "ヴォーグレネック", region: "ローヌ", price: 2500, priceLabel: "約2,500円", desc: "ローヌ南部のスパイシーで力強い1本。", tags: ["フルボディ", "スパイシー", "食事向き"] },
-  { type: "red", grape: "シラー", name: "サン・コザン サン・ジョセフ", producer: "サン・コザン", region: "ローヌ", price: 3500, priceLabel: "約3,500円", desc: "ローヌ北部の手頃な銘柄。", tags: ["スパイシー", "ローヌ", "食事向き"] },
-  { type: "red", grape: "シラー", name: "ドメーヌ・カイヨ コート・ロティ", producer: "カイヨ", region: "ローヌ", price: 9500, priceLabel: "約9,500円", desc: "コート・ロティの上質シラー。", tags: ["プレミアム", "ローヌ", "記念日"] },
   { type: "red", grape: "シラー", name: "ドメーヌ・ジャン・ルイ・シャヴ サンジョセフ", producer: "シャヴ", region: "ローヌ", price: 5500, priceLabel: "約5,500円", desc: "ローヌの名門による高品質シラー。", tags: ["エレガント", "ローヌ", "贈り物向き"] },
   { type: "red", grape: "シラー", name: "ドメーヌ・ジャン・ルイ・シャヴ エルミタージュ", producer: "シャヴ", region: "ローヌ", price: 28000, priceLabel: "約28,000円", desc: "ローヌの伝説的造り手。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "red", grape: "シラー", name: "ジャン・リュック・コロンボ コート・ロティ", producer: "コロンボ", region: "ローヌ", price: 5500, priceLabel: "約5,500円", desc: "ローヌの実力派造り手。", tags: ["エレガント", "ローヌ", "贈り物向き"] },
-  { type: "red", grape: "シラー", name: "クリスタル・モン・ロワイヤル", producer: "クリスタル", region: "ローヌ", price: 1500, priceLabel: "約1,500円", desc: "コスパ良いローヌシラー。", tags: ["スパイシー", "コスパ良", "ローヌ"] },
   { type: "red", grape: "シラー", name: "モンテス アルファ シラー", producer: "モンテス", region: "チリ", price: 2500, priceLabel: "約2,500円", desc: "チリ屈指の上質シラー。", tags: ["フルボディ", "スパイシー", "贈り物向き"] },
   { type: "red", grape: "シラー", name: "モンテス フォリー", producer: "モンテス", region: "チリ", price: 18000, priceLabel: "約18,000円", desc: "モンテスのアイコンワイン。", tags: ["プレミアム", "贈り物向き", "記念日"] },
   { type: "red", grape: "シラー", name: "エラスリス シラー", producer: "エラスリス", region: "チリ", price: 2200, priceLabel: "約2,200円", desc: "エラスリスのスパイシーシラー。", tags: ["フルボディ", "スパイシー", "食事向き"] },
-  { type: "red", grape: "シラー", name: "ヴィーニャ・コノスル オシオ ピノ", producer: "コノスル", region: "チリ", price: 6500, priceLabel: "約6,500円", desc: "コノスルの単一畑シラー。", tags: ["プレミアム", "贈り物向き", "食事向き"] },
   { type: "red", grape: "シラー", name: "ハーディーズ HRB シラーズ", producer: "ハーディーズ", region: "オーストラリア", price: 2800, priceLabel: "約2,800円", desc: "豊かな樽香と複雑な香り。", tags: ["フルボディ", "スパイシー", "贈り物向き"] },
   { type: "red", grape: "シラー", name: "セッペルト ジャラマン シラーズ", producer: "セッペルト", region: "オーストラリア", price: 4500, priceLabel: "約4,500円", desc: "ヴィクトリアの上質シラーズ。", tags: ["フルボディ", "贈り物向き", "肉料理"] },
   { type: "red", grape: "シラー", name: "ヤラ・イェアリング シラー", producer: "ヤラ・イェアリング", region: "オーストラリア", price: 6500, priceLabel: "約6,500円", desc: "ヤラ・ヴァレーの伝統的造り手。", tags: ["エレガント", "贈り物向き", "ニューワールド"] },
   { type: "red", grape: "シラー", name: "ジョーンズ・ロード シラー", producer: "ジョーンズ・ロード", region: "オーストラリア", price: 3500, priceLabel: "約3,500円", desc: "モーニントン半島のシラー。", tags: ["エレガント", "贈り物向き", "ニューワールド"] },
-  { type: "red", grape: "シラー", name: "ラ・モッタ シラー", producer: "ラ・モッタ", region: "南アフリカ", price: 1800, priceLabel: "約1,800円", desc: "南アフリカのコスパ良シラー。", tags: ["スパイシー", "コスパ良", "食事向き"] },
-  { type: "red", grape: "シラー", name: "ラ・カパンナ シラー", producer: "ラ・カパンナ", region: "イタリア", price: 1500, priceLabel: "約1,500円", desc: "イタリア産シラーのコスパ良銘柄。", tags: ["スパイシー", "イタリアン", "コスパ良"] },
   { type: "red", grape: "グルナッシュ", name: "ボルサオ ティント", producer: "ボデガス・ボルサオ", region: "スペイン", price: 1000, priceLabel: "約1,000円", desc: "果実の凝縮感と心地よいスパイス。", tags: ["デイリー", "果実味", "コスパ良"] },
   { type: "red", grape: "グルナッシュ", name: "ボルサオ セレクション", producer: "ボデガス・ボルサオ", region: "スペイン", price: 1300, priceLabel: "約1,300円", desc: "上位版でより複雑味あり。", tags: ["フルボディ", "コスパ良", "肉料理"] },
   { type: "red", grape: "グルナッシュ", name: "ボルサオ トレス・ピカス", producer: "ボデガス・ボルサオ", region: "スペイン", price: 1700, priceLabel: "約1,700円", desc: "より凝縮した果実味、コスパ抜群。", tags: ["フルボディ", "スペイン", "コスパ良"] },
   { type: "red", grape: "グルナッシュ", name: "ボルサオ グランド・モンガイ", producer: "ボデガス・ボルサオ", region: "スペイン", price: 2800, priceLabel: "約2,800円", desc: "ボルサオの最上級銘柄。", tags: ["フルボディ", "贈り物向き", "肉料理"] },
-  { type: "red", grape: "グルナッシュ", name: "カンポス・デ・ルナ", producer: "カンポス・デ・ルナ", region: "スペイン", price: 1100, priceLabel: "約1,100円", desc: "親しみやすいスペイングルナッシュ。", tags: ["デイリー", "果実味", "コスパ良"] },
-  { type: "red", grape: "グルナッシュ", name: "アタテキ", producer: "アタテキ", region: "スペイン", price: 1500, priceLabel: "約1,500円", desc: "スパイシーで力強いスペイン産。", tags: ["スパイシー", "果実味", "コスパ良"] },
-  { type: "red", grape: "グルナッシュ", name: "コト・デ・グマラ グルナッシュ", producer: "コト・デ・グマラ", region: "スペイン", price: 1300, priceLabel: "約1,300円", desc: "コスパ良い若いグルナッシュ。", tags: ["デイリー", "果実味", "コスパ良"] },
   { type: "red", grape: "グルナッシュ", name: "ボデガス・サン・アレハンドロ ガルナッチャ", producer: "サン・アレハンドロ", region: "スペイン", price: 1100, priceLabel: "約1,100円", desc: "アラゴンのデイリーガルナッチャ。", tags: ["デイリー", "果実味", "コスパ良"] },
   { type: "red", grape: "グルナッシュ", name: "シャトーヌフ・デュ・パプ シャプティエ", producer: "M.シャプティエ", region: "ローヌ", price: 5500, priceLabel: "約5,500円", desc: "ローヌ南部の銘酒。豊潤で複雑。", tags: ["フルボディ", "複雑", "贈り物向き"] },
   { type: "red", grape: "グルナッシュ", name: "シャトーヌフ・デュ・パプ ペゴー", producer: "ペゴー", region: "ローヌ", price: 6500, priceLabel: "約6,500円", desc: "シャトーヌフの伝統的造り手。", tags: ["フルボディ", "ローヌ", "記念日"] },
@@ -522,7 +510,6 @@ const WINE_DB = [
   { type: "red", grape: "グルナッシュ", name: "ベラ・グルナッシュ", producer: "ベラ", region: "オーストラリア", price: 1800, priceLabel: "約1,800円", desc: "オーストラリア産フルーティーグルナッシュ。", tags: ["フルーティー", "デイリー", "コスパ良"] },
   { type: "red", grape: "グルナッシュ", name: "ヤルムバ バロッサ・グルナッシュ", producer: "ヤルムバ", region: "オーストラリア", price: 2800, priceLabel: "約2,800円", desc: "バロッサの古樹から造られる上質グルナッシュ。", tags: ["フルボディ", "果実味", "贈り物向き"] },
   { type: "red", grape: "グルナッシュ", name: "ヤルムバ オールド・ヴァイン グルナッシュ", producer: "ヤルムバ", region: "オーストラリア", price: 3500, priceLabel: "約3,500円", desc: "ヤルムバの古樹グルナッシュ。", tags: ["フルボディ", "贈り物向き", "果実味"] },
-  { type: "red", grape: "グルナッシュ", name: "クライドン・ヒルズ グルナッシュ", producer: "クライドン", region: "オーストラリア", price: 2200, priceLabel: "約2,200円", desc: "オーストラリアのバランス型グルナッシュ。", tags: ["フルーティー", "コスパ良", "食事向き"] },
   { type: "red", grape: "グルナッシュ", name: "ターキー・フラット グルナッシュ", producer: "ターキー・フラット", region: "オーストラリア", price: 4500, priceLabel: "約4,500円", desc: "バロッサの古樹グルナッシュ。", tags: ["フルボディ", "贈り物向き", "果実味"] },
   { type: "red", grape: "グルナッシュ", name: "チャールズ・メルトン ナイン・ポップス", producer: "チャールズ・メルトン", region: "オーストラリア", price: 5500, priceLabel: "約5,500円", desc: "バロッサのGSMブレンド名門。", tags: ["フルボディ", "贈り物向き", "肉料理"] },
   { type: "red", grape: "グルナッシュ", name: "アルヴァロ・パラシオス フィンカ・ドフィ", producer: "アルヴァロ・パラシオス", region: "プリオラート", price: 9500, priceLabel: "約9,500円", desc: "プリオラートの名手による濃密グルナッシュ。", tags: ["プレミアム", "スペイン", "記念日"] },
@@ -532,10 +519,7 @@ const WINE_DB = [
   { type: "red", grape: "グルナッシュ", name: "クロ・エラスムス", producer: "クロ・エラスムス", region: "プリオラート", price: 22000, priceLabel: "約22,000円", desc: "プリオラートのカルトワイン。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "red", grape: "グルナッシュ", name: "クロ・ド・ロベル", producer: "クロ・ド・ロベル", region: "プリオラート", price: 4500, priceLabel: "約4,500円", desc: "プリオラートの良質なグルナッシュ。", tags: ["フルボディ", "スペイン", "贈り物向き"] },
   { type: "red", grape: "グルナッシュ", name: "セレマ プリオラート", producer: "セレマ", region: "プリオラート", price: 6500, priceLabel: "約6,500円", desc: "プリオラートのコスパ良銘柄。", tags: ["フルボディ", "スペイン", "贈り物向き"] },
-  { type: "red", grape: "グルナッシュ", name: "シャトー・ラ・ヌルティ コトー・デクサンプロヴァンス", producer: "シャトー・ラ・ヌルティ", region: "プロヴァンス", price: 2500, priceLabel: "約2,500円", desc: "南仏のスパイシーなグルナッシュブレンド。", tags: ["スパイシー", "果実味", "コスパ良"] },
-  { type: "red", grape: "グルナッシュ", name: "コトー・デクサンプロヴァンス サン・コスメ", producer: "サン・コスメ", region: "プロヴァンス", price: 2200, priceLabel: "約2,200円", desc: "プロヴァンス南部のグルナッシュ。", tags: ["スパイシー", "コスパ良", "食事向き"] },
   { type: "red", grape: "グルナッシュ", name: "ドメーヌ・タンピエ バンドール", producer: "タンピエ", region: "プロヴァンス", price: 5500, priceLabel: "約5,500円", desc: "バンドールの伝統的造り手。", tags: ["フルボディ", "プロヴァンス", "贈り物向き"] },
-  { type: "red", grape: "グルナッシュ", name: "クロ・ド・タール グルナッシュ", producer: "クロ・ド・タール", region: "南仏", price: 1700, priceLabel: "約1,700円", desc: "南仏らしい温暖なグルナッシュ。", tags: ["フルーティー", "コスパ良", "デイリー"] },
   { type: "red", grape: "グルナッシュ", name: "リラックス グルナッシュ", producer: "シュミット・ゼーネ", region: "南仏", price: 1300, priceLabel: "約1,300円", desc: "親しみやすい南仏ブレンド。", tags: ["デイリー", "フルーティー", "コスパ良"] },
   { type: "red", grape: "グルナッシュ", name: "シャトー・コンビエ", producer: "シャトー・コンビエ", region: "ローヌ", price: 3500, priceLabel: "約3,500円", desc: "クローズ・エルミタージュの実力派。", tags: ["フルボディ", "ローヌ", "食事向き"] },
   { type: "red", grape: "グルナッシュ", name: "シャトー・モン・ルドン", producer: "シャトー・モン・ルドン", region: "ローヌ", price: 4500, priceLabel: "約4,500円", desc: "シャトーヌフのコスパ良銘柄。", tags: ["フルボディ", "ローヌ", "贈り物向き"] },
@@ -577,7 +561,6 @@ const WINE_DB = [
   { type: "red", grape: "サンジョヴェーゼ", name: "モレリーノ・ディ・スカンサーノ レ・プピッレ", producer: "レ・プピッレ", region: "トスカーナ", price: 2500, priceLabel: "約2,500円", desc: "モレリーノの実力派。", tags: ["フルボディ", "イタリアン", "食事向き"] },
   { type: "red", grape: "サンジョヴェーゼ", name: "サンジョヴェーゼ・ディ・ロマーニャ", producer: "ウンベルト・チェザリ", region: "エミリア・ロマーニャ", price: 1400, priceLabel: "約1,400円", desc: "親しみやすいエミリア産。", tags: ["デイリー", "イタリアン", "コスパ良"] },
   { type: "red", grape: "サンジョヴェーゼ", name: "ファルネーゼ サンジョヴェーゼ", producer: "ファルネーゼ", region: "アブルッツォ", price: 1100, priceLabel: "約1,100円", desc: "アブルッツォ産のコスパ良。", tags: ["デイリー", "イタリアン", "コスパ良"] },
-  { type: "red", grape: "サンジョヴェーゼ", name: "ピアジオーネ サンジョヴェーゼ", producer: "ピアジオーネ", region: "トスカーナ", price: 1500, priceLabel: "約1,500円", desc: "トスカーナのデイリーサンジョ。", tags: ["デイリー", "イタリアン", "コスパ良"] },
   { type: "red", grape: "サンジョヴェーゼ", name: "サッシカイア", producer: "テヌータ・サン・グイド", region: "トスカーナ", price: 35000, priceLabel: "約35,000円", desc: "スーパータスカンの代表。", tags: ["プレミアム", "イタリアン", "コレクション"] },
   { type: "red", grape: "サンジョヴェーゼ", name: "ティニャネロ", producer: "アンティノリ", region: "トスカーナ", price: 12000, priceLabel: "約12,000円", desc: "イタリアの名門スーパータスカン。", tags: ["プレミアム", "イタリアン", "記念日"] },
   { type: "red", grape: "サンジョヴェーゼ", name: "ソライア", producer: "アンティノリ", region: "トスカーナ", price: 22000, priceLabel: "約22,000円", desc: "アンティノリの最高峰。", tags: ["プレミアム", "イタリアン", "コレクション"] },
@@ -587,12 +570,7 @@ const WINE_DB = [
   { type: "red", grape: "サンジョヴェーゼ", name: "イル・ボッロ", producer: "イル・ボッロ", region: "トスカーナ", price: 4200, priceLabel: "約4,200円", desc: "フェラガモ家所有ワイナリー。", tags: ["フルボディ", "イタリアン", "贈り物向き"] },
   { type: "red", grape: "サンジョヴェーゼ", name: "ピアン・デッレ・ヴィーニェ", producer: "アンティノリ", region: "トスカーナ", price: 6500, priceLabel: "約6,500円", desc: "アンティノリのブルネッロ。", tags: ["フルボディ", "イタリアン", "贈り物向き"] },
   { type: "red", grape: "サンジョヴェーゼ", name: "グアード・アル・タッソ", producer: "アンティノリ", region: "トスカーナ", price: 12000, priceLabel: "約12,000円", desc: "アンティノリのボルゲリ銘柄。", tags: ["プレミアム", "イタリアン", "記念日"] },
-  { type: "red", grape: "サンジョヴェーゼ", name: "マッセート アンナ・ティニャネッロ", producer: "マッセート", region: "トスカーナ", price: 95000, priceLabel: "約95,000円", desc: "イタリア最高峰メルロー寄りスーパータスカン。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "red", grape: "サンジョヴェーゼ", name: "ル・マッキオレ", producer: "ル・マッキオレ", region: "トスカーナ", price: 8500, priceLabel: "約8,500円", desc: "ボルゲリの実力派。", tags: ["フルボディ", "イタリアン", "贈り物向き"] },
-  { type: "red", grape: "サンジョヴェーゼ", name: "サンジョ・トスカーノ", producer: "カーサ・ヴィニコーラ", region: "トスカーナ", price: 1100, priceLabel: "約1,100円", desc: "親しみやすいデイリーサンジョ。", tags: ["デイリー", "イタリアン", "コスパ良"] },
-  { type: "red", grape: "サンジョヴェーゼ", name: "カラフーラ サンジョヴェーゼ", producer: "カラフーラ", region: "トスカーナ", price: 1300, priceLabel: "約1,300円", desc: "トスカーナのデイリー銘柄。", tags: ["デイリー", "イタリアン", "コスパ良"] },
-  { type: "red", grape: "サンジョヴェーゼ", name: "サン・ポーロ サンジョヴェーゼ", producer: "サン・ポーロ", region: "ウンブリア", price: 1500, priceLabel: "約1,500円", desc: "ウンブリア産のサンジョ。", tags: ["デイリー", "イタリアン", "コスパ良"] },
-  { type: "red", grape: "サンジョヴェーゼ", name: "ロカ・グェルチャ サンジョヴェーゼ", producer: "ロカ・グェルチャ", region: "ウンブリア", price: 1700, priceLabel: "約1,700円", desc: "ウンブリアの実力派。", tags: ["ミディアム", "イタリアン", "コスパ良"] },
   { type: "red", grape: "テンプラニーリョ", name: "カンポ・ビエホ リオハ ティント", producer: "カンポ・ビエホ", region: "リオハ", price: 1300, priceLabel: "約1,300円", desc: "チェリーとバニラの香り、滑らか。", tags: ["デイリー", "まろやか", "コスパ良"] },
   { type: "red", grape: "テンプラニーリョ", name: "カンポ・ビエホ レゼルヴァ", producer: "カンポ・ビエホ", region: "リオハ", price: 1900, priceLabel: "約1,900円", desc: "樽熟成で複雑味あり。", tags: ["ミディアム", "熟成", "食事向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "カンポ・ビエホ グラン・レゼルヴァ", producer: "カンポ・ビエホ", region: "リオハ", price: 3000, priceLabel: "約3,000円", desc: "長期熟成のリオハ。", tags: ["フルボディ", "熟成", "贈り物向き"] },
@@ -626,16 +604,12 @@ const WINE_DB = [
   { type: "red", grape: "テンプラニーリョ", name: "プロトス クリアンサ", producer: "プロトス", region: "リベラ・デル・ドゥエロ", price: 2200, priceLabel: "約2,200円", desc: "リベラの実力派、コスパ良し。", tags: ["ミディアム", "スペイン", "コスパ良"] },
   { type: "red", grape: "テンプラニーリョ", name: "プロトス レゼルヴァ", producer: "プロトス", region: "リベラ・デル・ドゥエロ", price: 4500, priceLabel: "約4,500円", desc: "上級銘柄、深みと複雑味。", tags: ["フルボディ", "熟成", "贈り物向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "プロトス グラン・レゼルヴァ", producer: "プロトス", region: "リベラ・デル・ドゥエロ", price: 7500, priceLabel: "約7,500円", desc: "リベラの上質グラン・レゼルヴァ。", tags: ["プレミアム", "スペイン", "記念日"] },
-  { type: "red", grape: "テンプラニーリョ", name: "コンデ・デ・バリャドリード", producer: "コンデ・デ・バリャドリード", region: "リベラ・デル・ドゥエロ", price: 1300, priceLabel: "約1,300円", desc: "リベラのデイリーテンプラニーリョ。", tags: ["デイリー", "スペイン", "コスパ良"] },
   { type: "red", grape: "テンプラニーリョ", name: "エミリオ・モロ クリアンサ", producer: "エミリオ・モロ", region: "リベラ・デル・ドゥエロ", price: 2800, priceLabel: "約2,800円", desc: "リベラの実力派造り手。", tags: ["ミディアム", "スペイン", "食事向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "エミリオ・モロ マレオロス", producer: "エミリオ・モロ", region: "リベラ・デル・ドゥエロ", price: 5500, priceLabel: "約5,500円", desc: "上級マレオロス。", tags: ["フルボディ", "スペイン", "贈り物向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "ペスケラ クリアンサ", producer: "ペスケラ", region: "リベラ・デル・ドゥエロ", price: 3500, priceLabel: "約3,500円", desc: "リベラの伝統的造り手。", tags: ["フルボディ", "スペイン", "食事向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "ペスケラ レゼルヴァ", producer: "ペスケラ", region: "リベラ・デル・ドゥエロ", price: 5500, priceLabel: "約5,500円", desc: "上級レゼルヴァ。", tags: ["フルボディ", "スペイン", "贈り物向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "アバディア・レトゥエルタ", producer: "アバディア・レトゥエルタ", region: "カスティーリャ", price: 3200, priceLabel: "約3,200円", desc: "モダンスタイルのカスティーリャワイン。", tags: ["フルボディ", "スペイン", "食事向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "ヴィーニャ・サストレ クリアンサ", producer: "ヴィーニャ・サストレ", region: "リベラ・デル・ドゥエロ", price: 4500, priceLabel: "約4,500円", desc: "リベラの新進気鋭。", tags: ["フルボディ", "スペイン", "贈り物向き"] },
-  { type: "red", grape: "テンプラニーリョ", name: "アーラスター ティント", producer: "アーラスター", region: "ナバラ", price: 1100, priceLabel: "約1,100円", desc: "親しみやすい価格のスペイン産。", tags: ["デイリー", "コスパ良", "食事向き"] },
-  { type: "red", grape: "テンプラニーリョ", name: "セレッシオン・ボデガス・ポブレス", producer: "セレッシオン", region: "スペイン", price: 800, priceLabel: "約800円", desc: "超デイリー価格のテンプラニーリョ。", tags: ["デイリー", "コスパ良", "果実味"] },
-  { type: "red", grape: "テンプラニーリョ", name: "ベラート テンプラニーリョ", producer: "ベラート", region: "ラ・マンチャ", price: 800, priceLabel: "約800円", desc: "ラ・マンチャの超デイリー。", tags: ["デイリー", "コスパ良", "まろやか"] },
   { type: "red", grape: "テンプラニーリョ", name: "シエラ・カンタブリア レゼルヴァ", producer: "シエラ・カンタブリア", region: "リオハ", price: 3200, priceLabel: "約3,200円", desc: "リオハの実力派。", tags: ["フルボディ", "熟成", "食事向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "アルタディ ヴィーニャ・エル・ピソン", producer: "アルタディ", region: "リオハ", price: 35000, priceLabel: "約35,000円", desc: "リオハのカルトワイン。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "red", grape: "テンプラニーリョ", name: "ロダ レゼルヴァ", producer: "ロダ", region: "リオハ", price: 3500, priceLabel: "約3,500円", desc: "リオハのモダンスタイル名門。", tags: ["フルボディ", "リオハ", "贈り物向き"] },
@@ -647,7 +621,6 @@ const WINE_DB = [
   { type: "red", grape: "マルベック", name: "トリヴェント リザーブ マルベック", producer: "トリヴェント", region: "アルゼンチン", price: 1600, priceLabel: "約1,600円", desc: "濃密な果実味と滑らかなタンニン。", tags: ["フルボディ", "肉料理", "コスパ良"] },
   { type: "red", grape: "マルベック", name: "サンタ・フリア マルベック", producer: "サンタ・フリア", region: "アルゼンチン", price: 1000, priceLabel: "約1,000円", desc: "デイリー価格の入門マルベック。", tags: ["デイリー", "肉料理", "コスパ良"] },
   { type: "red", grape: "マルベック", name: "サンタ・フリア レゼルヴァ マルベック", producer: "サンタ・フリア", region: "アルゼンチン", price: 1500, priceLabel: "約1,500円", desc: "上位ライン、濃厚な果実味。", tags: ["フルボディ", "肉料理", "コスパ良"] },
-  { type: "red", grape: "マルベック", name: "アルゼント マルベック", producer: "アルゼント", region: "アルゼンチン", price: 1300, priceLabel: "約1,300円", desc: "凝縮感ある果実味、コスパ良し。", tags: ["フルボディ", "果実味", "コスパ良"] },
   { type: "red", grape: "マルベック", name: "ノートン マルベック", producer: "ノートン", region: "アルゼンチン", price: 1500, priceLabel: "約1,500円", desc: "メンドーサの定番マルベック。", tags: ["フルボディ", "肉料理", "デイリー"] },
   { type: "red", grape: "マルベック", name: "ノートン リザーバ マルベック", producer: "ノートン", region: "アルゼンチン", price: 2200, priceLabel: "約2,200円", desc: "ノートンの上質ライン。", tags: ["フルボディ", "肉料理", "食事向き"] },
   { type: "red", grape: "マルベック", name: "アラモス マルベック", producer: "アラモス", region: "アルゼンチン", price: 1700, priceLabel: "約1,700円", desc: "親しみやすく、ステーキとの相性抜群。", tags: ["フルボディ", "肉料理", "コスパ良"] },
@@ -665,17 +638,13 @@ const WINE_DB = [
   { type: "red", grape: "マルベック", name: "シャトー・デュ・セドル カオール", producer: "シャトー・デュ・セドル", region: "カオール", price: 3800, priceLabel: "約3,800円", desc: "カオールを代表する造り手。", tags: ["フルボディ", "フランス", "贈り物向き"] },
   { type: "red", grape: "マルベック", name: "シャトー・ラグレゼット", producer: "シャトー・ラグレゼット", region: "カオール", price: 4500, priceLabel: "約4,500円", desc: "カオールのモダン名門。", tags: ["フルボディ", "フランス", "贈り物向き"] },
   { type: "red", grape: "マルベック", name: "シャトー・デュ・セドル ル・プレスティージュ", producer: "シャトー・デュ・セドル", region: "カオール", price: 5500, priceLabel: "約5,500円", desc: "上級プレスティージュ。", tags: ["フルボディ", "フランス", "贈り物向き"] },
-  { type: "red", grape: "マルベック", name: "ザ・ショーケース マルベック", producer: "コノスル", region: "チリ", price: 4500, priceLabel: "約4,500円", desc: "チリ産の上質マルベック。", tags: ["フルボディ", "肉料理", "贈り物向き"] },
   { type: "red", grape: "マルベック", name: "コノスル マルベック ヴァラエタル", producer: "コノスル", region: "チリ", price: 1100, priceLabel: "約1,100円", desc: "チリ産の親しみやすいマルベック。", tags: ["デイリー", "コスパ良", "肉料理"] },
   { type: "red", grape: "マルベック", name: "モンテス アルファ マルベック", producer: "モンテス", region: "アルゼンチン", price: 2500, priceLabel: "約2,500円", desc: "モンテスのアルゼンチンマルベック。", tags: ["フルボディ", "肉料理", "贈り物向き"] },
   { type: "red", grape: "マルベック", name: "アンデルーナ マルベック", producer: "アンデルーナ", region: "アルゼンチン", price: 2200, priceLabel: "約2,200円", desc: "メンドーサの実力派。", tags: ["フルボディ", "肉料理", "食事向き"] },
   { type: "red", grape: "マルベック", name: "ドニャ・ポーラ マルベック", producer: "ドニャ・ポーラ", region: "アルゼンチン", price: 1800, priceLabel: "約1,800円", desc: "アルゼンチンの定番、バランス良し。", tags: ["ミディアム", "肉料理", "コスパ良"] },
   { type: "red", grape: "マルベック", name: "ルカ マルベック", producer: "ルカ", region: "アルゼンチン", price: 3500, priceLabel: "約3,500円", desc: "ローラ・カテナの個人プロジェクト。", tags: ["フルボディ", "肉料理", "贈り物向き"] },
-  { type: "red", grape: "マルベック", name: "ベスト・オブ・メンドーサ マルベック", producer: "ベスト", region: "アルゼンチン", price: 1500, priceLabel: "約1,500円", desc: "メンドーサのデイリー。", tags: ["デイリー", "肉料理", "コスパ良"] },
   { type: "red", grape: "マルベック", name: "クロ・ド・ロス・シエテ", producer: "クロ・デ・シエテ", region: "アルゼンチン", price: 3500, priceLabel: "約3,500円", desc: "ミシェル・ロランがコンサルする銘柄。", tags: ["フルボディ", "肉料理", "贈り物向き"] },
   { type: "red", grape: "マルベック", name: "ヴィーニャ・コボス マルベック", producer: "ヴィーニャ・コボス", region: "アルゼンチン", price: 7500, priceLabel: "約7,500円", desc: "アメリカ人醸造家ポール・ホブスの作品。", tags: ["プレミアム", "肉料理", "贈り物向き"] },
-  { type: "red", grape: "マルベック", name: "ボデガ・ファビアン マルベック", producer: "ファビアン", region: "アルゼンチン", price: 1700, priceLabel: "約1,700円", desc: "親しみやすいアルゼンチンマルベック。", tags: ["ミディアム", "肉料理", "コスパ良"] },
-  { type: "red", grape: "マルベック", name: "シャトー・ピノ・グレ", producer: "シャトー・ピノ・グレ", region: "カオール", price: 1500, priceLabel: "約1,500円", desc: "カオール産のデイリーマルベック。", tags: ["デイリー", "フランス", "コスパ良"] },
   { type: "red", grape: "マルベック", name: "ボデガ・チャクラ マルベック", producer: "ボデガ・チャクラ", region: "アルゼンチン", price: 4500, priceLabel: "約4,500円", desc: "パタゴニアのエレガントマルベック。", tags: ["フルボディ", "アルゼンチン", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "アルパカ シャルドネ・セミヨン", producer: "サンタ・ヘレナ", region: "チリ", price: 600, priceLabel: "約600円", desc: "爽やかで親しみやすい白ワイン。", tags: ["デイリー", "爽やか", "コスパ良"] },
   { type: "white", grape: "シャルドネ", name: "アルパカ シャルドネ", producer: "サンタ・ヘレナ", region: "チリ", price: 650, priceLabel: "約650円", desc: "リンゴと柑橘の香り、デイリーに。", tags: ["デイリー", "爽やか", "コスパ良"] },
@@ -697,7 +666,6 @@ const WINE_DB = [
   { type: "white", grape: "シャルドネ", name: "ベリンジャー ファウンダーズ・エステート シャルドネ", producer: "ベリンジャー", region: "カリフォルニア", price: 2200, priceLabel: "約2,200円", desc: "リッチでクリーミーな口当たり。", tags: ["まろやか", "食事向き", "コスパ良"] },
   { type: "white", grape: "シャルドネ", name: "ケンダル・ジャクソン ヴィントナーズ・リザーヴ シャルドネ", producer: "ケンダル・ジャクソン", region: "カリフォルニア", price: 2500, priceLabel: "約2,500円", desc: "アメリカで最も売れているシャルドネ。", tags: ["まろやか", "食事向き", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "ボーグル シャルドネ", producer: "ボーグル", region: "カリフォルニア", price: 1900, priceLabel: "約1,900円", desc: "コスパ良いカリフォルニアシャルドネ。", tags: ["まろやか", "コスパ良", "食事向き"] },
-  { type: "white", grape: "シャルドネ", name: "ロデイ シャルドネ", producer: "ロデイ", region: "カリフォルニア", price: 4500, priceLabel: "約4,500円", desc: "ロシアン・リバー・ヴァレーの実力派。", tags: ["まろやか", "ナパ", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "ラ・クレマ モントレー シャルドネ", producer: "ラ・クレマ", region: "カリフォルニア", price: 3500, priceLabel: "約3,500円", desc: "モントレーのバランス型シャルドネ。", tags: ["まろやか", "食事向き", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "ソノマカトラー シャルドネ", producer: "ソノマカトラー", region: "ソノマ", price: 3800, priceLabel: "約3,800円", desc: "ソノマの実力派シャルドネ。", tags: ["まろやか", "ナパ", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "ルイ・ジャド マコン・ヴィラージュ", producer: "ルイ・ジャド", region: "ブルゴーニュ", price: 2800, priceLabel: "約2,800円", desc: "リンゴと柑橘の爽やかさ。", tags: ["エレガント", "ブルゴーニュ", "食事向き"] },
@@ -744,7 +712,6 @@ const WINE_DB = [
   { type: "white", grape: "シャルドネ", name: "ペンフォールズ ビン311 シャルドネ", producer: "ペンフォールズ", region: "オーストラリア", price: 4500, priceLabel: "約4,500円", desc: "ペンフォールズの上質シャルドネ。", tags: ["フルーティー", "贈り物向き", "食事向き"] },
   { type: "white", grape: "シャルドネ", name: "リーウィン・エステート アートシリーズ シャルドネ", producer: "リーウィン", region: "オーストラリア", price: 9500, priceLabel: "約9,500円", desc: "マーガレット・リヴァーの最高峰。", tags: ["プレミアム", "贈り物向き", "記念日"] },
   { type: "white", grape: "シャルドネ", name: "クラウディ・ベイ テ・コイ シャルドネ", producer: "クラウディ・ベイ", region: "ニュージーランド", price: 5500, priceLabel: "約5,500円", desc: "クラウディ・ベイの上級シャルドネ。", tags: ["エレガント", "贈り物向き", "記念日"] },
-  { type: "white", grape: "シャルドネ", name: "クモ・コ シャルドネ", producer: "クモ・コ", region: "ニュージーランド", price: 3500, priceLabel: "約3,500円", desc: "NZの実力派シャルドネ。", tags: ["エレガント", "ニューワールド", "食事向き"] },
   { type: "white", grape: "シャルドネ", name: "キスラー シャルドネ レ・ノワゼッティエール", producer: "キスラー", region: "カリフォルニア", price: 18000, priceLabel: "約18,000円", desc: "カリフォルニアの伝説的シャルドネ。", tags: ["プレミアム", "記念日", "コレクション"] },
   { type: "white", grape: "シャルドネ", name: "ニュートン アンフィルタード シャルドネ", producer: "ニュートン", region: "ナパ", price: 8500, priceLabel: "約8,500円", desc: "リッチで複雑、無濾過。", tags: ["フルボディ", "ナパ", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "ファー・ニエンテ シャルドネ", producer: "ファー・ニエンテ", region: "ナパ", price: 12000, priceLabel: "約12,000円", desc: "ナパの名門による上質シャルドネ。", tags: ["プレミアム", "ナパ", "記念日"] },
@@ -775,7 +742,6 @@ const WINE_DB = [
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "クラウディ・ベイ テ・コキ", producer: "クラウディ・ベイ", region: "ニュージーランド", price: 6500, priceLabel: "約6,500円", desc: "クラウディベイ最上級の単一畑。", tags: ["プレミアム", "贈り物向き", "華やか"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "ドッグ・ポイント ソーヴィニヨン・ブラン", producer: "ドッグ・ポイント", region: "ニュージーランド", price: 3800, priceLabel: "約3,800円", desc: "NZのプレミアムソーヴィニヨン。", tags: ["華やか", "贈り物向き", "ニューワールド"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "ドッグ・ポイント セクション94", producer: "ドッグ・ポイント", region: "ニュージーランド", price: 5500, priceLabel: "約5,500円", desc: "ドッグ・ポイントの最高峰。", tags: ["プレミアム", "贈り物向き", "華やか"] },
-  { type: "white", grape: "ソーヴィニヨン・ブラン", name: "グリーンウッド・パーク", producer: "グリーンウッド", region: "ニュージーランド", price: 2200, priceLabel: "約2,200円", desc: "親しみやすいNZ銘柄。", tags: ["爽やか", "コスパ良", "食事向き"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "アタ・ランギ ソーヴィニヨン", producer: "アタ・ランギ", region: "ニュージーランド", price: 4500, priceLabel: "約4,500円", desc: "マーティンボロの上質ソーヴィニヨン。", tags: ["エレガント", "贈り物向き", "ニューワールド"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "サンセール ヴァシュロン", producer: "ヴァシュロン", region: "ロワール", price: 3500, priceLabel: "約3,500円", desc: "ロワールの正統派ソーヴィニヨン。", tags: ["エレガント", "ロワール", "魚介"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "サンセール アンリ・ブルジョワ", producer: "アンリ・ブルジョワ", region: "ロワール", price: 3200, priceLabel: "約3,200円", desc: "ブルジョワ家の伝統的サンセール。", tags: ["エレガント", "ロワール", "食事向き"] },
@@ -798,8 +764,6 @@ const WINE_DB = [
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "ダックホーン ソーヴィニヨン・ブラン", producer: "ダックホーン", region: "ナパ", price: 4500, priceLabel: "約4,500円", desc: "ナパの上質ソーヴィニヨン。", tags: ["爽やか", "ナパ", "贈り物向き"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "シャトー・ステ・ミシェル ソーヴィニヨン", producer: "シャトー・ステ・ミシェル", region: "ワシントン", price: 1800, priceLabel: "約1,800円", desc: "ワシントンのコスパ良。", tags: ["爽やか", "コスパ良", "食事向き"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "コロンビア・クレスト ソーヴィニヨン", producer: "コロンビア・クレスト", region: "ワシントン", price: 1900, priceLabel: "約1,900円", desc: "ワシントンのデイリー白。", tags: ["爽やか", "コスパ良", "食事向き"] },
-  { type: "white", grape: "ソーヴィニヨン・ブラン", name: "デューカ・モンテ ソーヴィニヨン・ブラン", producer: "デューカ・モンテ", region: "イタリア", price: 1500, priceLabel: "約1,500円", desc: "イタリア産の爽やかソーヴィニヨン。", tags: ["爽やか", "イタリアン", "コスパ良"] },
-  { type: "white", grape: "ソーヴィニヨン・ブラン", name: "リヴェラータ ソーヴィニヨン", producer: "リヴェラータ", region: "イタリア", price: 1800, priceLabel: "約1,800円", desc: "イタリア北部のソーヴィニヨン。", tags: ["爽やか", "イタリアン", "コスパ良"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "アロイス・ラゲデール ソーヴィニヨン", producer: "アロイス・ラゲデール", region: "イタリア", price: 2500, priceLabel: "約2,500円", desc: "アルト・アディジェの実力派。", tags: ["爽やか", "イタリアン", "食事向き"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "ヴィッラ・サンディ ソーヴィニヨン", producer: "ヴィッラ・サンディ", region: "イタリア", price: 1700, priceLabel: "約1,700円", desc: "ヴェネトのコスパ良ソーヴィニヨン。", tags: ["爽やか", "イタリアン", "コスパ良"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "サンセール ジャン・ロベール", producer: "ジャン・ロベール", region: "ロワール", price: 2800, priceLabel: "約2,800円", desc: "ロワールの中堅造り手。", tags: ["エレガント", "ロワール", "食事向き"] },
@@ -811,23 +775,13 @@ const WINE_DB = [
   { type: "white", grape: "アルバリーニョ", name: "マル・デ・フラデス アルバリーニョ", producer: "マル・デ・フラデス", region: "リアス・バイシャス", price: 2500, priceLabel: "約2,500円", desc: "海風を感じるミネラル感。", tags: ["爽やか", "魚介", "ミネラル"] },
   { type: "white", grape: "アルバリーニョ", name: "マル・デ・フラデス フィノ", producer: "マル・デ・フラデス", region: "リアス・バイシャス", price: 3500, priceLabel: "約3,500円", desc: "上級銘柄、深いミネラル感。", tags: ["エレガント", "魚介", "贈り物向き"] },
   { type: "white", grape: "アルバリーニョ", name: "パソ・デ・セニョランス", producer: "パソ・デ・セニョランス", region: "リアス・バイシャス", price: 2800, priceLabel: "約2,800円", desc: "リアス・バイシャスの実力派。", tags: ["爽やか", "魚介", "贈り物向き"] },
-  { type: "white", grape: "アルバリーニョ", name: "パソ・シニョランス・セレシオン", producer: "パソ・シニョランス", region: "リアス・バイシャス", price: 3500, priceLabel: "約3,500円", desc: "上質単一畑アルバリーニョ。", tags: ["エレガント", "魚介", "贈り物向き"] },
-  { type: "white", grape: "アルバリーニョ", name: "ブルゲール アルバリーニョ", producer: "ブルゲール", region: "リアス・バイシャス", price: 2200, priceLabel: "約2,200円", desc: "親しみやすい価格のアルバリーニョ。", tags: ["爽やか", "魚介", "コスパ良"] },
-  { type: "white", grape: "アルバリーニョ", name: "アデガス・ガラン アルバリーニョ", producer: "アデガス・ガラン", region: "リアス・バイシャス", price: 1900, priceLabel: "約1,900円", desc: "コスパ重視のアルバリーニョ。", tags: ["爽やか", "コスパ良", "魚介"] },
   { type: "white", grape: "アルバリーニョ", name: "テラス・ガウダ アルバリーニョ", producer: "テラス・ガウダ", region: "リアス・バイシャス", price: 2500, priceLabel: "約2,500円", desc: "リアス・バイシャスの名門。", tags: ["爽やか", "魚介", "コスパ良"] },
   { type: "white", grape: "アルバリーニョ", name: "テラス・ガウダ ラ・モカ", producer: "テラス・ガウダ", region: "リアス・バイシャス", price: 3800, priceLabel: "約3,800円", desc: "テラス・ガウダの上級アルバリーニョ。", tags: ["エレガント", "魚介", "贈り物向き"] },
-  { type: "white", grape: "アルバリーニョ", name: "アンサンブル アルバリーニョ", producer: "アンサンブル", region: "リアス・バイシャス", price: 1700, priceLabel: "約1,700円", desc: "デイリー価格の入門アルバリーニョ。", tags: ["爽やか", "デイリー", "コスパ良"] },
   { type: "white", grape: "アルバリーニョ", name: "マルティン・コダックス アルバリーニョ", producer: "マルティン・コダックス", region: "リアス・バイシャス", price: 2200, priceLabel: "約2,200円", desc: "リアス・バイシャスの定番。", tags: ["爽やか", "魚介", "コスパ良"] },
   { type: "white", grape: "アルバリーニョ", name: "ボデガス・デル・パラシオ・デ・フェフィニャネス", producer: "フェフィニャネス", region: "リアス・バイシャス", price: 3200, priceLabel: "約3,200円", desc: "リアス・バイシャスの伝統的造り手。", tags: ["エレガント", "魚介", "贈り物向き"] },
-  { type: "white", grape: "アルバリーニョ", name: "ライアス・バイシャス・アグロ・デ・バサン", producer: "アグロ・デ・バサン", region: "リアス・バイシャス", price: 2500, priceLabel: "約2,500円", desc: "実力派の単一畑アルバリーニョ。", tags: ["爽やか", "魚介", "食事向き"] },
-  { type: "white", grape: "アルバリーニョ", name: "ドン・オラシオ アルバリーニョ", producer: "ドン・オラシオ", region: "リアス・バイシャス", price: 1700, priceLabel: "約1,700円", desc: "親しみやすい価格の入門銘柄。", tags: ["爽やか", "デイリー", "コスパ良"] },
-  { type: "white", grape: "アルバリーニョ", name: "アデガス・タピアス アルバリーニョ", producer: "アデガス・タピアス", region: "リアス・バイシャス", price: 2200, priceLabel: "約2,200円", desc: "コスパ良いリアス・バイシャス。", tags: ["爽やか", "コスパ良", "魚介"] },
-  { type: "white", grape: "アルバリーニョ", name: "リアス・バイシャス・カルメ", producer: "カルメ", region: "リアス・バイシャス", price: 1900, priceLabel: "約1,900円", desc: "デイリー価格のアルバリーニョ。", tags: ["爽やか", "デイリー", "コスパ良"] },
   { type: "white", grape: "アルバリーニョ", name: "ボデガス・ラガール・デ・セルベラ", producer: "ラガール・デ・セルベラ", region: "リアス・バイシャス", price: 2200, priceLabel: "約2,200円", desc: "リアス・バイシャスの定評ある銘柄。", tags: ["爽やか", "魚介", "コスパ良"] },
   { type: "white", grape: "アルバリーニョ", name: "アルバマール アルバリーニョ", producer: "アルバマール", region: "リアス・バイシャス", price: 2800, priceLabel: "約2,800円", desc: "リアス・バイシャスの新世代造り手。", tags: ["爽やか", "魚介", "食事向き"] },
   { type: "white", grape: "アルバリーニョ", name: "ナイア アルバリーニョ", producer: "ナイア", region: "リアス・バイシャス", price: 2500, priceLabel: "約2,500円", desc: "モダンスタイルのアルバリーニョ。", tags: ["爽やか", "魚介", "食事向き"] },
-  { type: "white", grape: "アルバリーニョ", name: "ボデガス・グランバセイ アルバリーニョ", producer: "グランバセイ", region: "リアス・バイシャス", price: 2200, priceLabel: "約2,200円", desc: "コスパ重視の良質アルバリーニョ。", tags: ["爽やか", "魚介", "コスパ良"] },
-  { type: "white", grape: "アルバリーニョ", name: "サンタ・カロリーナ アルバリーニョ", producer: "サンタ・カロリーナ", region: "チリ", price: 1500, priceLabel: "約1,500円", desc: "チリ産の親しみやすいアルバリーニョ。", tags: ["爽やか", "デイリー", "コスパ良"] },
   { type: "sparkling", grape: "シャルドネ", name: "フレシネ コルドン・ネグロ", producer: "フレシネ", region: "スペイン（カヴァ）", price: 1500, priceLabel: "約1,500円", desc: "爽やかな泡立ちと程よい辛口。", tags: ["デイリー", "乾杯", "コスパ良"] },
   { type: "sparkling", grape: "シャルドネ", name: "コドーニュ クラシコ", producer: "コドーニュ", region: "スペイン（カヴァ）", price: 1400, priceLabel: "約1,400円", desc: "親しみやすいスペインカヴァ。", tags: ["デイリー", "乾杯", "コスパ良"] },
   { type: "sparkling", grape: "シャルドネ", name: "セグラ・ヴューダス", producer: "セグラ・ヴューダス", region: "スペイン（カヴァ）", price: 1800, priceLabel: "約1,800円", desc: "辛口でバランス良いカヴァ。", tags: ["辛口", "デイリー", "コスパ良"] },
@@ -902,17 +856,12 @@ const WINE_DB = [
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ボッテガ ゴールド プロセッコ", producer: "ボッテガ", region: "ヴェネト", price: 3500, priceLabel: "約3,500円", desc: "金色ボトルが華やかな1本。", tags: ["華やか", "パーティー", "贈り物向き"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ボッテガ ローズ ゴールド", producer: "ボッテガ", region: "ヴェネト", price: 3800, priceLabel: "約3,800円", desc: "ロゼスタイルの華やかな1本。", tags: ["華やか", "パーティー", "贈り物向き"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ザルデット プロセッコ", producer: "ザルデット", region: "ヴェネト", price: 2000, priceLabel: "約2,000円", desc: "コネリアーノの実力派。", tags: ["フレッシュ", "イタリアン", "コスパ良"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "アステリア プロセッコ", producer: "アステリア", region: "ヴェネト", price: 1500, priceLabel: "約1,500円", desc: "デイリー価格の親しみやすい1本。", tags: ["デイリー", "フレッシュ", "コスパ良"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ニノ・フランコ ルスティコ", producer: "ニノ・フランコ", region: "ヴェネト", price: 2800, priceLabel: "約2,800円", desc: "プロセッコの名門。", tags: ["フレッシュ", "イタリアン", "贈り物向き"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ニノ・フランコ プリモ・フランコ", producer: "ニノ・フランコ", region: "ヴェネト", price: 3500, priceLabel: "約3,500円", desc: "ニノ・フランコの上質銘柄。", tags: ["フレッシュ", "贈り物向き", "イタリアン"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ベリンガー プロセッコ", producer: "ベリンガー", region: "ヴェネト", price: 1700, priceLabel: "約1,700円", desc: "コスパ良いデイリープロセッコ。", tags: ["デイリー", "フレッシュ", "コスパ良"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ヴァルドッビアーデネ ジュゼッペ・カルメル", producer: "ジュゼッペ・カルメル", region: "ヴェネト", price: 2800, priceLabel: "約2,800円", desc: "上質ヴァルドッビアーデネ。", tags: ["フレッシュ", "贈り物向き", "イタリアン"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "コル・ヴェトラーズ プロセッコ", producer: "コル・ヴェトラーズ", region: "ヴェネト", price: 2200, priceLabel: "約2,200円", desc: "ヴァルドッビアーデネの実力派。", tags: ["フレッシュ", "イタリアン", "コスパ良"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ビゾル プロセッコ", producer: "ビゾル", region: "ヴェネト", price: 1900, priceLabel: "約1,900円", desc: "プロセッコの伝統的造り手。", tags: ["フレッシュ", "デイリー", "コスパ良"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ビゾル ジャイオ プロセッコ", producer: "ビゾル", region: "ヴェネト", price: 2500, priceLabel: "約2,500円", desc: "ビゾルの上質ライン。", tags: ["フレッシュ", "贈り物向き", "コスパ良"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ルッジェーリ プロセッコ", producer: "ルッジェーリ", region: "ヴェネト", price: 2300, priceLabel: "約2,300円", desc: "ヴァルドッビアーデネの実力派。", tags: ["フレッシュ", "イタリアン", "コスパ良"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "アドルフォ・サローニ プロセッコ", producer: "アドルフォ・サローニ", region: "ヴェネト", price: 1700, priceLabel: "約1,700円", desc: "親しみやすいプロセッコ。", tags: ["デイリー", "フレッシュ", "コスパ良"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ベリンガー ロゼ・プロセッコ", producer: "ベリンガー", region: "ヴェネト", price: 1900, priceLabel: "約1,900円", desc: "華やかなロゼスタイル。", tags: ["華やか", "デイリー", "コスパ良"] },
   { type: "sparkling", grape: "マスカット", name: "ヴィッラ・サンディ モスカート・ダスティ", producer: "ヴィッラ・サンディ", region: "ピエモンテ", price: 1800, priceLabel: "約1,800円", desc: "甘口で度数低め。デザートと一緒に。", tags: ["甘口", "デザート", "飲みやすい"] },
   { type: "sparkling", grape: "マスカット", name: "サラッコ モスカート・ダスティ", producer: "サラッコ", region: "ピエモンテ", price: 2200, priceLabel: "約2,200円", desc: "アスティの名門による上質モスカート。", tags: ["甘口", "デザート", "贈り物向き"] },
   { type: "sparkling", grape: "マスカット", name: "ヴィエッティ モスカート・ダスティ", producer: "ヴィエッティ", region: "ピエモンテ", price: 2500, priceLabel: "約2,500円", desc: "ピエモンテの実力派。", tags: ["甘口", "デザート", "贈り物向き"] },
@@ -920,7 +869,6 @@ const WINE_DB = [
   { type: "sparkling", grape: "マスカット", name: "ガンチア アスティ", producer: "ガンチア", region: "ピエモンテ", price: 1700, priceLabel: "約1,700円", desc: "イタリアの伝統甘口スプマンテ。", tags: ["甘口", "デザート", "コスパ良"] },
   { type: "sparkling", grape: "マスカット", name: "サンテロ モスカート・ピンク", producer: "サンテロ", region: "ピエモンテ", price: 1500, priceLabel: "約1,500円", desc: "ピンクの可愛らしいモスカート。", tags: ["甘口", "華やか", "コスパ良"] },
   { type: "sparkling", grape: "マスカット", name: "サンテロ・モスカート・ダスティ", producer: "サンテロ", region: "ピエモンテ", price: 1700, priceLabel: "約1,700円", desc: "イタリアの定番甘口スパークリング。", tags: ["甘口", "デザート", "コスパ良"] },
-  { type: "sparkling", grape: "マスカット", name: "リヴァータ モスカート・ダスティ", producer: "リヴァータ", region: "ピエモンテ", price: 1900, priceLabel: "約1,900円", desc: "ピエモンテの良質モスカート。", tags: ["甘口", "デザート", "コスパ良"] },
   { type: "sparkling", grape: "マスカット", name: "ボッテガ プティ・ローズ・モスカート", producer: "ボッテガ", region: "ピエモンテ", price: 2200, priceLabel: "約2,200円", desc: "ボッテガの華やかロゼモスカート。", tags: ["甘口", "華やか", "贈り物向き"] },
   { type: "sparkling", grape: "マスカット", name: "カンティーネ・ガンチア モスカート・ダスティ", producer: "ガンチア", region: "ピエモンテ", price: 1900, priceLabel: "約1,900円", desc: "ガンチアの伝統的銘柄。", tags: ["甘口", "デザート", "コスパ良"] },
   { type: "sparkling", grape: "マスカット", name: "ミケーレ・キアルロ モスカート・ダスティ", producer: "ミケーレ・キアルロ", region: "ピエモンテ", price: 2500, priceLabel: "約2,500円", desc: "ピエモンテの実力派。", tags: ["甘口", "デザート", "贈り物向き"] },
@@ -936,39 +884,29 @@ const WINE_DB = [
   { type: "white", grape: "リースリング", name: "シュロス・ヨハニスベルク シルバーラック", producer: "ヨハニスベルク", region: "ラインガウ", price: 5500, priceLabel: "約5,500円", desc: "より上質なシルバーラック。", tags: ["プレミアム", "ドイツ", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "ロバート・ヴァイル リースリング", producer: "ロバート・ヴァイル", region: "ラインガウ", price: 3800, priceLabel: "約3,800円", desc: "ラインガウの最高峰の1つ。", tags: ["エレガント", "ドイツ", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "ロバート・ヴァイル キートリッヒャー", producer: "ロバート・ヴァイル", region: "ラインガウ", price: 5500, priceLabel: "約5,500円", desc: "キートリヒ村の上質リースリング。", tags: ["プレミアム", "ドイツ", "贈り物向き"] },
-  { type: "white", grape: "リースリング", name: "シュロス・ライザー リースリング", producer: "ライザー", region: "ラインヘッセン", price: 1500, priceLabel: "約1,500円", desc: "デイリーで楽しめるドイツリースリング。", tags: ["デイリー", "やや甘口", "コスパ良"] },
-  { type: "white", grape: "リースリング", name: "ケラーゲン リースリング", producer: "ケラーゲン", region: "ファルツ", price: 1700, priceLabel: "約1,700円", desc: "ファルツ産の辛口リースリング。", tags: ["辛口", "ドイツ", "コスパ良"] },
   { type: "white", grape: "リースリング", name: "ベルンハルト・コッホ リースリング", producer: "ベルンハルト・コッホ", region: "ファルツ", price: 1800, priceLabel: "約1,800円", desc: "ファルツの実力派。", tags: ["辛口", "ドイツ", "コスパ良"] },
-  { type: "white", grape: "リースリング", name: "リッペルマン リースリング", producer: "リッペルマン", region: "ファルツ", price: 1800, priceLabel: "約1,800円", desc: "ファルツのフルーティーなリースリング。", tags: ["フルーティー", "ドイツ", "コスパ良"] },
-  { type: "white", grape: "リースリング", name: "ライツ クリオ", producer: "ライツ", region: "ラインガウ", price: 2200, priceLabel: "約2,200円", desc: "ラインガウのモダンスタイル。", tags: ["辛口", "ドイツ", "食事向き"] },
   { type: "white", grape: "リースリング", name: "エゴン・ミュラー シャルツホフベルガー", producer: "エゴン・ミュラー", region: "モーゼル", price: 25000, priceLabel: "約25,000円", desc: "モーゼルの最高峰造り手。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "white", grape: "リースリング", name: "エゴン・ミュラー シャルツホフ・ザール", producer: "エゴン・ミュラー", region: "モーゼル", price: 8500, priceLabel: "約8,500円", desc: "ザールの最高峰リースリング。", tags: ["プレミアム", "ドイツ", "記念日"] },
   { type: "white", grape: "リースリング", name: "JJ・プリュム ヴェレーナー・ゾンネンウーア", producer: "JJ・プリュム", region: "モーゼル", price: 5500, priceLabel: "約5,500円", desc: "モーゼルの伝統的造り手。", tags: ["エレガント", "ドイツ", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "JJ・プリュム グラーハ・ヒンメルライヒ", producer: "JJ・プリュム", region: "モーゼル", price: 5500, priceLabel: "約5,500円", desc: "JJ・プリュムの上級銘柄。", tags: ["プレミアム", "ドイツ", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "フリッツ・ハーグ ブラウネベルガー・ユッファー", producer: "フリッツ・ハーグ", region: "モーゼル", price: 4500, priceLabel: "約4,500円", desc: "モーゼル中部の名門。", tags: ["エレガント", "ドイツ", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "セルバッハ・オスター ブラインデルベルク", producer: "セルバッハ・オスター", region: "モーゼル", price: 3500, priceLabel: "約3,500円", desc: "モーゼルの実力派造り手。", tags: ["エレガント", "ドイツ", "食事向き"] },
-  { type: "white", grape: "リースリング", name: "アイスワイン リッペルマン", producer: "リッペルマン", region: "ドイツ", price: 6500, priceLabel: "約6,500円", desc: "極甘口のアイスワイン。", tags: ["甘口", "デザート", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "イニスキリン アイスワイン", producer: "イニスキリン", region: "カナダ", price: 8500, priceLabel: "約8,500円", desc: "カナダの伝統的アイスワイン。", tags: ["甘口", "デザート", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "トリンバック リースリング", producer: "トリンバック", region: "アルザス", price: 3200, priceLabel: "約3,200円", desc: "アルザスの辛口リースリング。", tags: ["辛口", "エレガント", "食事向き"] },
   { type: "white", grape: "リースリング", name: "トリンバック クロ・サン・ユンヌ", producer: "トリンバック", region: "アルザス", price: 28000, priceLabel: "約28,000円", desc: "トリンバックの最高峰。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "white", grape: "リースリング", name: "トリンバック フレデリック・エミール", producer: "トリンバック", region: "アルザス", price: 7500, priceLabel: "約7,500円", desc: "トリンバックの上級銘柄。", tags: ["プレミアム", "アルザス", "記念日"] },
   { type: "white", grape: "リースリング", name: "ヒューゲル リースリング", producer: "ヒューゲル", region: "アルザス", price: 2500, priceLabel: "約2,500円", desc: "アルザスの安定銘柄。", tags: ["辛口", "アルザス", "食事向き"] },
   { type: "white", grape: "リースリング", name: "ヒューゲル ジュビレ・リースリング", producer: "ヒューゲル", region: "アルザス", price: 5500, priceLabel: "約5,500円", desc: "ヒューゲルの上級リースリング。", tags: ["エレガント", "アルザス", "贈り物向き"] },
-  { type: "white", grape: "リースリング", name: "ジョセフ・ヒルトル リースリング", producer: "ヒルトル", region: "アルザス", price: 1900, priceLabel: "約1,900円", desc: "親しみやすいアルザスリースリング。", tags: ["辛口", "コスパ良", "食事向き"] },
   { type: "white", grape: "リースリング", name: "ドメーヌ・ヴァインバック リースリング", producer: "ヴァインバック", region: "アルザス", price: 4500, priceLabel: "約4,500円", desc: "ヴァインバックの上品なリースリング。", tags: ["エレガント", "アルザス", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "ヴァインバック キュヴェ・テオ", producer: "ヴァインバック", region: "アルザス", price: 5500, priceLabel: "約5,500円", desc: "ヴァインバックのプレステージュ。", tags: ["プレミアム", "アルザス", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "ジョスメイヤー リースリング", producer: "ジョスメイヤー", region: "アルザス", price: 3200, priceLabel: "約3,200円", desc: "アルザスの実力派造り手。", tags: ["辛口", "アルザス", "食事向き"] },
-  { type: "white", grape: "リースリング", name: "シャーレンベルク リースリング", producer: "ツィント・フンブレヒト", region: "アルザス", price: 4500, priceLabel: "約4,500円", desc: "ツィント・フンブレヒトの上級銘柄。", tags: ["プレミアム", "アルザス", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "ツィント・フンブレヒト リースリング タン", producer: "ツィント・フンブレヒト", region: "アルザス", price: 6500, priceLabel: "約6,500円", desc: "上級単一畑リースリング。", tags: ["プレミアム", "アルザス", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "イエローテイル リースリング", producer: "カセラ", region: "オーストラリア", price: 900, priceLabel: "約900円", desc: "親しみやすいオージーリースリング。", tags: ["デイリー", "やや甘口", "コスパ良"] },
   { type: "white", grape: "リースリング", name: "リンデマンズ ビン75 リースリング", producer: "リンデマンズ", region: "オーストラリア", price: 1400, priceLabel: "約1,400円", desc: "オーストラリアの定番リースリング。", tags: ["デイリー", "やや甘口", "コスパ良"] },
   { type: "white", grape: "リースリング", name: "ジェイコブズ・クリーク リースリング", producer: "ジェイコブズ・クリーク", region: "オーストラリア", price: 1500, priceLabel: "約1,500円", desc: "オージーの親しみやすい白。", tags: ["デイリー", "やや甘口", "コスパ良"] },
-  { type: "white", grape: "リースリング", name: "ピューターズ・パス リースリング", producer: "ピューターズ・パス", region: "オーストラリア", price: 2200, priceLabel: "約2,200円", desc: "クナワラの上質リースリング。", tags: ["辛口", "ニューワールド", "食事向き"] },
   { type: "white", grape: "リースリング", name: "グロセット ポリッシュ・ヒル", producer: "グロセット", region: "オーストラリア", price: 4500, priceLabel: "約4,500円", desc: "クレア・ヴァレーの最高峰。", tags: ["プレミアム", "贈り物向き", "ニューワールド"] },
-  { type: "white", grape: "リースリング", name: "ペウィージー・ヴェイル ザ・コンタアズ", producer: "ペウィージー・ヴェイル", region: "オーストラリア", price: 2500, priceLabel: "約2,500円", desc: "イーデン・ヴァレーの上質リースリング。", tags: ["辛口", "ニューワールド", "食事向き"] },
   { type: "white", grape: "リースリング", name: "シャトー・ステ・ミシェル リースリング", producer: "シャトー・ステ・ミシェル", region: "ワシントン", price: 1700, priceLabel: "約1,700円", desc: "アメリカの定番リースリング。", tags: ["やや甘口", "コスパ良", "食事向き"] },
   { type: "white", grape: "リースリング", name: "シャトー・ステ・ミシェル エロイカ", producer: "シャトー・ステ・ミシェル", region: "ワシントン", price: 3800, priceLabel: "約3,800円", desc: "ロウゼンとのコラボ銘柄。", tags: ["やや甘口", "贈り物向き", "食事向き"] },
-  { type: "white", grape: "リースリング", name: "ファーンコ リースリング", producer: "ファーンコ", region: "オーストリア", price: 2200, priceLabel: "約2,200円", desc: "オーストリアの良質リースリング。", tags: ["辛口", "食事向き", "コスパ良"] },
   { type: "white", grape: "リースリング", name: "ニコライホフ リースリング", producer: "ニコライホフ", region: "オーストリア", price: 3500, priceLabel: "約3,500円", desc: "ヴァッハウの実力派。", tags: ["エレガント", "食事向き", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "FX・ピヒラー リースリング", producer: "FX・ピヒラー", region: "オーストリア", price: 4500, priceLabel: "約4,500円", desc: "ヴァッハウのトップ造り手。", tags: ["プレミアム", "贈り物向き", "記念日"] },
   { type: "white", grape: "リースリング", name: "プラガー リースリング・アハライテン", producer: "プラガー", region: "オーストリア", price: 5500, priceLabel: "約5,500円", desc: "オーストリアの最高峰リースリング。", tags: ["プレミアム", "贈り物向き", "記念日"] },
@@ -983,7 +921,6 @@ const WINE_DB = [
   { type: "white", grape: "ピノ・グリ", name: "ヴァインバック ピノ・グリ アルテンブルク", producer: "ヴァインバック", region: "アルザス", price: 6500, priceLabel: "約6,500円", desc: "上級単一畑。", tags: ["プレミアム", "アルザス", "贈り物向き"] },
   { type: "white", grape: "ピノ・グリ", name: "ジョスメイヤー ピノ・グリ", producer: "ジョスメイヤー", region: "アルザス", price: 3200, priceLabel: "約3,200円", desc: "アルザスの実力派ピノ・グリ。", tags: ["まろやか", "アルザス", "食事向き"] },
   { type: "white", grape: "ピノ・グリ", name: "ツィント・フンブレヒト ピノ・グリ", producer: "ツィント・フンブレヒト", region: "アルザス", price: 4500, priceLabel: "約4,500円", desc: "上質単一畑ピノ・グリ。", tags: ["プレミアム", "アルザス", "贈り物向き"] },
-  { type: "white", grape: "ピノ・グリ", name: "シャトー・ヴァインバック・サント・カトリーヌ", producer: "ヴァインバック", region: "アルザス", price: 8500, priceLabel: "約8,500円", desc: "ヴァインバックのフラッグシップ。", tags: ["プレミアム", "アルザス", "記念日"] },
   { type: "white", grape: "ピノ・グリ", name: "ピノ・グリージョ サンタ・マルゲリータ", producer: "サンタ・マルゲリータ", region: "イタリア", price: 2500, priceLabel: "約2,500円", desc: "イタリアを代表するピノ・グリージョ。", tags: ["爽やか", "イタリアン", "食事向き"] },
   { type: "white", grape: "ピノ・グリ", name: "ピノ・グリージョ アルト・アディジェ", producer: "アロイス・ラゲデール", region: "イタリア", price: 2200, priceLabel: "約2,200円", desc: "山岳地帯の繊細なピノ・グリージョ。", tags: ["爽やか", "イタリアン", "食事向き"] },
   { type: "white", grape: "ピノ・グリ", name: "ピノ・グリージョ ヴィヘール", producer: "ヴィヘール", region: "イタリア", price: 1700, priceLabel: "約1,700円", desc: "イタリア北部の良質ピノグリ。", tags: ["爽やか", "イタリアン", "コスパ良"] },
@@ -997,35 +934,23 @@ const WINE_DB = [
   { type: "white", grape: "ピノ・グリ", name: "コノスル ピノ・グリージョ", producer: "コノスル", region: "チリ", price: 1100, priceLabel: "約1,100円", desc: "チリ産の爽やかなピノ・グリージョ。", tags: ["爽やか", "デイリー", "コスパ良"] },
   { type: "white", grape: "ピノ・グリ", name: "サンタ・カロリーナ ピノ・グリージョ", producer: "サンタ・カロリーナ", region: "チリ", price: 1000, priceLabel: "約1,000円", desc: "デイリーのチリピノグリ。", tags: ["デイリー", "爽やか", "コスパ良"] },
   { type: "white", grape: "ピノ・グリ", name: "シャトー・ステ・ミシェル ピノ・グリ", producer: "シャトー・ステ・ミシェル", region: "ワシントン", price: 1900, priceLabel: "約1,900円", desc: "ワシントンの定番ピノ・グリ。", tags: ["まろやか", "コスパ良", "食事向き"] },
-  { type: "white", grape: "ピノ・グリ", name: "ファイブ・リバーズ ピノ・グリ", producer: "ファイブ・リバーズ", region: "カリフォルニア", price: 2200, priceLabel: "約2,200円", desc: "カリフォルニアの実力派。", tags: ["まろやか", "ナパ", "食事向き"] },
   { type: "white", grape: "ピノ・グリ", name: "ロバート・モンダヴィ プライベート ピノ・グリ", producer: "ロバート・モンダヴィ", region: "カリフォルニア", price: 2000, priceLabel: "約2,000円", desc: "カリフォルニアのデイリー白。", tags: ["まろやか", "コスパ良", "食事向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "ヒューゲル ゲヴュルツトラミネール", producer: "ヒューゲル", region: "アルザス", price: 2800, priceLabel: "約2,800円", desc: "ライチやバラの華やかな香り。", tags: ["華やか", "個性派", "アジアン"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "ヒューゲル ジュビレ・ゲヴュルツ", producer: "ヒューゲル", region: "アルザス", price: 5500, priceLabel: "約5,500円", desc: "ヒューゲルの上級ゲヴュルツ。", tags: ["プレミアム", "アルザス", "贈り物向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "トリンバック ゲヴュルツトラミネール", producer: "トリンバック", region: "アルザス", price: 3200, priceLabel: "約3,200円", desc: "辛口で骨格のあるゲヴュルツ。", tags: ["辛口", "華やか", "食事向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "トリンバック ゲヴュルツ・レゼルヴ", producer: "トリンバック", region: "アルザス", price: 4500, priceLabel: "約4,500円", desc: "上級レゼルヴ。", tags: ["華やか", "アルザス", "贈り物向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "トリンバック ゲヴュルツトラミネール・ヴァンダンジュ・タルディヴ", producer: "トリンバック", region: "アルザス", price: 7500, priceLabel: "約7,500円", desc: "甘口の遅摘み銘柄。", tags: ["甘口", "デザート", "贈り物向き"] },
-  { type: "white", grape: "ゲヴュルツトラミネール", name: "ジョセフ・ヒルトル ゲヴュルツトラミネール", producer: "ヒルトル", region: "アルザス", price: 2200, priceLabel: "約2,200円", desc: "コスパ良いアルザスゲヴュルツ。", tags: ["華やか", "コスパ良", "食事向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "ヴァインバック ゲヴュルツトラミネール", producer: "ヴァインバック", region: "アルザス", price: 4500, priceLabel: "約4,500円", desc: "上品で複雑なアルザス銘柄。", tags: ["エレガント", "華やか", "贈り物向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "ヴァインバック ゲヴュルツ・キュヴェ・テオ", producer: "ヴァインバック", region: "アルザス", price: 6500, priceLabel: "約6,500円", desc: "ヴァインバックのフラッグシップ。", tags: ["プレミアム", "アルザス", "贈り物向き"] },
-  { type: "white", grape: "ゲヴュルツトラミネール", name: "シャトー・ユジェル ゲヴュルツトラミネール", producer: "ユジェル", region: "アルザス", price: 3500, priceLabel: "約3,500円", desc: "アルザスの中堅銘柄。", tags: ["華やか", "アルザス", "贈り物向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "ピエール・スパー ゲヴュルツトラミネール", producer: "ピエール・スパー", region: "アルザス", price: 2500, priceLabel: "約2,500円", desc: "親しみやすい価格のゲヴュルツ。", tags: ["華やか", "コスパ良", "食事向き"] },
-  { type: "white", grape: "ゲヴュルツトラミネール", name: "シャトー・ド・リクヴィル ゲヴュルツトラミネール", producer: "リクヴィル", region: "アルザス", price: 1900, priceLabel: "約1,900円", desc: "コスパ重視のアルザスゲヴュルツ。", tags: ["華やか", "コスパ良", "デイリー"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "ジョスメイヤー ゲヴュルツトラミネール", producer: "ジョスメイヤー", region: "アルザス", price: 3200, priceLabel: "約3,200円", desc: "ジョスメイヤーの個性派。", tags: ["華やか", "アルザス", "食事向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "ツィント・フンブレヒト ゲヴュルツ", producer: "ツィント・フンブレヒト", region: "アルザス", price: 4500, priceLabel: "約4,500円", desc: "上質単一畑ゲヴュルツ。", tags: ["プレミアム", "アルザス", "贈り物向き"] },
-  { type: "white", grape: "ゲヴュルツトラミネール", name: "オレモア ゲヴュルツトラミネール", producer: "オレモア", region: "イタリア北部", price: 2200, priceLabel: "約2,200円", desc: "イタリア産のゲヴュルツ。", tags: ["華やか", "イタリアン", "食事向き"] },
-  { type: "white", grape: "ゲヴュルツトラミネール", name: "コール・ディ・サザ ゲヴュルツ", producer: "コール・ディ・サザ", region: "イタリア", price: 2500, priceLabel: "約2,500円", desc: "アルト・アディジェのゲヴュルツ。", tags: ["華やか", "イタリアン", "食事向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "シャトー・ステ・ミシェル ゲヴュルツ", producer: "シャトー・ステ・ミシェル", region: "ワシントン", price: 2000, priceLabel: "約2,000円", desc: "ワシントンのゲヴュルツ。", tags: ["華やか", "コスパ良", "食事向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "アンダーソン・ヴァレー ゲヴュルツ", producer: "ナヴァロ", region: "カリフォルニア", price: 3200, priceLabel: "約3,200円", desc: "カリフォルニアの上質ゲヴュルツ。", tags: ["華やか", "ナパ", "食事向き"] },
   { type: "white", grape: "ゲヴュルツトラミネール", name: "ヤルムバ ゲヴュルツトラミネール", producer: "ヤルムバ", region: "オーストラリア", price: 2200, priceLabel: "約2,200円", desc: "オーストラリアのバランス型ゲヴュルツ。", tags: ["華やか", "コスパ良", "食事向き"] },
-  { type: "white", grape: "ゲヴュルツトラミネール", name: "ロッシ・ピノ・ゲヴュルツ", producer: "ロッシ", region: "イタリア北部", price: 1700, priceLabel: "約1,700円", desc: "イタリアのコスパ良ゲヴュルツ。", tags: ["華やか", "イタリアン", "コスパ良"] },
-  { type: "white", grape: "ゲヴュルツトラミネール", name: "ドメーヌ・シェフェール ゲヴュルツ", producer: "シェフェール", region: "アルザス", price: 2800, priceLabel: "約2,800円", desc: "アルザスの良質ゲヴュルツ。", tags: ["華やか", "アルザス", "食事向き"] },
   { type: "white", grape: "ヴィオニエ", name: "イエローテイル ヴィオニエ", producer: "カセラ", region: "オーストラリア", price: 900, priceLabel: "約900円", desc: "アプリコットや花の香り。", tags: ["フルーティー", "デイリー", "コスパ良"] },
   { type: "white", grape: "ヴィオニエ", name: "コノスル ヴィオニエ ヴァラエタル", producer: "コノスル", region: "チリ", price: 1100, priceLabel: "約1,100円", desc: "華やかなアプリコット香、コスパ良。", tags: ["フルーティー", "デイリー", "コスパ良"] },
   { type: "white", grape: "ヴィオニエ", name: "コノスル レゼルバ ヴィオニエ", producer: "コノスル", region: "チリ", price: 1700, priceLabel: "約1,700円", desc: "コノスルの上位ヴィオニエ。", tags: ["フルーティー", "コスパ良", "食事向き"] },
-  { type: "white", grape: "ヴィオニエ", name: "ヴィオニエ ペイ・ドック", producer: "ドメーヌ・ジャン・ピエール", region: "南仏", price: 1700, priceLabel: "約1,700円", desc: "南仏の手頃なヴィオニエ。", tags: ["フルーティー", "コスパ良", "食事向き"] },
-  { type: "white", grape: "ヴィオニエ", name: "シャトー・サン・コザン ヴィオニエ", producer: "サン・コザン", region: "ローヌ", price: 2200, priceLabel: "約2,200円", desc: "ローヌのコスパ良いヴィオニエ。", tags: ["フルーティー", "ローヌ", "食事向き"] },
-  { type: "white", grape: "ヴィオニエ", name: "ローラン・シャルル ヴィオニエ", producer: "ローラン・シャルル", region: "南仏", price: 1500, priceLabel: "約1,500円", desc: "親しみやすい南仏ヴィオニエ。", tags: ["フルーティー", "コスパ良", "デイリー"] },
-  { type: "white", grape: "ヴィオニエ", name: "クライドン・ヒルズ ヴィオニエ", producer: "クライドン", region: "オーストラリア", price: 2500, priceLabel: "約2,500円", desc: "オーストラリアの上質ヴィオニエ。", tags: ["フルーティー", "華やか", "食事向き"] },
   { type: "white", grape: "ヴィオニエ", name: "コンドリュー ギガル", producer: "ギガル", region: "ローヌ", price: 8500, priceLabel: "約8,500円", desc: "ヴィオニエ発祥地コンドリューの銘柄。", tags: ["プレミアム", "ローヌ", "記念日"] },
   { type: "white", grape: "ヴィオニエ", name: "コンドリュー ギガル ラ・ドリアーヌ", producer: "ギガル", region: "ローヌ", price: 22000, priceLabel: "約22,000円", desc: "ギガルの上質単一畑。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "white", grape: "ヴィオニエ", name: "コンドリュー ヴェルニェ", producer: "ヴェルニェ", region: "ローヌ", price: 6500, priceLabel: "約6,500円", desc: "コンドリューの実力派。", tags: ["プレミアム", "ローヌ", "贈り物向き"] },
@@ -1034,9 +959,7 @@ const WINE_DB = [
   { type: "white", grape: "ヴィオニエ", name: "シャトー・グリエ", producer: "シャトー・グリエ", region: "ローヌ", price: 28000, priceLabel: "約28,000円", desc: "ローヌ唯一の単独原産地呼称、極めて稀少。", tags: ["プレミアム", "コレクション", "稀少"] },
   { type: "white", grape: "ヴィオニエ", name: "シャプティエ コンドリュー", producer: "M.シャプティエ", region: "ローヌ", price: 7500, priceLabel: "約7,500円", desc: "シャプティエ家のコンドリュー。", tags: ["プレミアム", "ローヌ", "贈り物向き"] },
   { type: "white", grape: "ヴィオニエ", name: "ヤルムバ ヴィオニエ", producer: "ヤルムバ", region: "オーストラリア", price: 2200, priceLabel: "約2,200円", desc: "オーストラリアのバランス型ヴィオニエ。", tags: ["フルーティー", "コスパ良", "食事向き"] },
-  { type: "white", grape: "ヴィオニエ", name: "ターホド ヴィオニエ", producer: "ターホド", region: "オーストラリア", price: 2800, priceLabel: "約2,800円", desc: "ヴィクトリアの実力派ヴィオニエ。", tags: ["フルーティー", "ニューワールド", "食事向き"] },
   { type: "white", grape: "ヴィオニエ", name: "モンテス アルファ ヴィオニエ", producer: "モンテス", region: "チリ", price: 2200, priceLabel: "約2,200円", desc: "チリの上質ヴィオニエ。", tags: ["フルーティー", "コスパ良", "食事向き"] },
-  { type: "white", grape: "ヴィオニエ", name: "アライド・ドメーヌ ヴィオニエ", producer: "アライド・ドメーヌ", region: "南仏", price: 1300, priceLabel: "約1,300円", desc: "南仏のデイリーヴィオニエ。", tags: ["フルーティー", "デイリー", "コスパ良"] },
   { type: "white", grape: "ヴィオニエ", name: "ジャブレ・エネ ヴィオニエ・サン・ジョセフ", producer: "ジャブレ", region: "ローヌ", price: 3500, priceLabel: "約3,500円", desc: "ローヌ北部のヴィオニエ。", tags: ["エレガント", "ローヌ", "食事向き"] },
   { type: "white", grape: "ヴィオニエ", name: "ピーター・レーマン ヴィオニエ", producer: "ピーター・レーマン", region: "オーストラリア", price: 1900, priceLabel: "約1,900円", desc: "バロッサのコスパ良ヴィオニエ。", tags: ["フルーティー", "コスパ良", "食事向き"] },
   { type: "sparkling", grape: "マカベオ", name: "フレシネ ヴィンテージ・ロゼ", producer: "フレシネ", region: "スペイン（カヴァ）", price: 2500, priceLabel: "約2,500円", desc: "上質ヴィンテージのロゼカヴァ。", tags: ["華やか", "贈り物向き", "コスパ良"] },
@@ -1072,13 +995,8 @@ const WINE_DB = [
   { type: "sparkling", grape: "マカベオ", name: "レカレド テッラース 2007", producer: "レカレド", region: "スペイン（カヴァ）", price: 8500, priceLabel: "約8,500円", desc: "レカレドのプレステージュ・キュヴェ。", tags: ["プレミアム", "コレクション", "記念日"] },
   { type: "sparkling", grape: "マカベオ", name: "アグスティ・トレリョ・マタ ブルート・レゼルバ", producer: "アグスティ・トレリョ・マタ", region: "スペイン（カヴァ）", price: 2500, priceLabel: "約2,500円", desc: "ペネデスの伝統的造り手。", tags: ["辛口", "コスパ良", "食事向き"] },
   { type: "sparkling", grape: "マカベオ", name: "アグスティ・トレリョ・マタ・ナチュラル", producer: "アグスティ・トレリョ・マタ", region: "スペイン（カヴァ）", price: 3200, priceLabel: "約3,200円", desc: "ナチュラルブリュットの上質銘柄。", tags: ["辛口", "贈り物向き", "食事向き"] },
-  { type: "sparkling", grape: "マカベオ", name: "ヴィラ・ベテラル ブルート", producer: "ヴィラ・ベテラル", region: "スペイン（カヴァ）", price: 1700, priceLabel: "約1,700円", desc: "コスパ重視の入門カヴァ。", tags: ["デイリー", "コスパ良", "乾杯"] },
-  { type: "sparkling", grape: "マカベオ", name: "シェガラ ブルット・レゼルバ", producer: "シェガラ", region: "スペイン（カヴァ）", price: 1900, priceLabel: "約1,900円", desc: "親しみやすい価格のレゼルバ。", tags: ["デイリー", "コスパ良", "乾杯"] },
-  { type: "sparkling", grape: "マカベオ", name: "ガルメンディア ブルット", producer: "ガルメンディア", region: "スペイン（カヴァ）", price: 1500, priceLabel: "約1,500円", desc: "デイリー価格のシンプルカヴァ。", tags: ["デイリー", "コスパ良", "乾杯"] },
   { type: "sparkling", grape: "マカベオ", name: "オリオール・ロサル ブルート・ナトゥール", producer: "オリオール・ロサル", region: "スペイン（カヴァ）", price: 2800, priceLabel: "約2,800円", desc: "オーガニックの実力派。", tags: ["辛口", "贈り物向き", "食事向き"] },
   { type: "sparkling", grape: "マカベオ", name: "マス・コドーニュ", producer: "コドーニュ", region: "スペイン（カヴァ）", price: 1900, priceLabel: "約1,900円", desc: "コドーニュ家のもう一つの銘柄。", tags: ["デイリー", "コスパ良", "乾杯"] },
-  { type: "sparkling", grape: "マカベオ", name: "カヴァ・ポイレル ブルート", producer: "ポイレル", region: "スペイン（カヴァ）", price: 1500, priceLabel: "約1,500円", desc: "デイリーのコスパ良カヴァ。", tags: ["デイリー", "コスパ良", "乾杯"] },
-  { type: "sparkling", grape: "マカベオ", name: "1+1=3 カヴァ・レゼルバ", producer: "1+1=3", region: "スペイン（カヴァ）", price: 2200, priceLabel: "約2,200円", desc: "個性的なエチケットのカヴァ。", tags: ["エレガント", "コスパ良", "食事向き"] },
   { type: "sparkling", grape: "ピノ・ノワール", name: "シャルル・エドシック ロゼ", producer: "シャルル・エドシック", region: "シャンパーニュ", price: 9500, priceLabel: "約9,500円", desc: "華やかロゼ・シャンパーニュ。", tags: ["華やか", "記念日", "シャンパーニュ"] },
   { type: "sparkling", grape: "ピノ・ノワール", name: "ジャクソン キュヴェ745", producer: "ジャクソン", region: "シャンパーニュ", price: 8500, priceLabel: "約8,500円", desc: "ジャクソンの最新キュヴェ。", tags: ["エレガント", "シャンパーニュ", "贈り物向き"] },
   { type: "sparkling", grape: "ピノ・ノワール", name: "ポル・ロジェ ブリュット・レゼルヴ", producer: "ポル・ロジェ", region: "シャンパーニュ", price: 9500, priceLabel: "約9,500円", desc: "チャーチル愛飲のシャンパーニュ。", tags: ["エレガント", "記念日", "シャンパーニュ"] },
@@ -1099,16 +1017,12 @@ const WINE_DB = [
   { type: "sparkling", grape: "ピノ・ノワール", name: "デ・ヴノージュ プランス", producer: "デ・ヴノージュ", region: "シャンパーニュ", price: 9500, priceLabel: "約9,500円", desc: "個性的な瓶のシャンパーニュ。", tags: ["華やか", "シャンパーニュ", "贈り物向き"] },
   { type: "sparkling", grape: "ピノ・ノワール", name: "コラール=ピカール ブリュット", producer: "コラール=ピカール", region: "シャンパーニュ", price: 5500, priceLabel: "約5,500円", desc: "新世代の小規模生産者。", tags: ["エレガント", "シャンパーニュ", "コスパ良"] },
   { type: "sparkling", grape: "ピノ・ノワール", name: "ピエール・ジモネ クール・ド・キュヴェ", producer: "ピエール・ジモネ", region: "シャンパーニュ", price: 9500, priceLabel: "約9,500円", desc: "ブラン・ド・ブランの実力派。", tags: ["エレガント", "シャンパーニュ", "贈り物向き"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ヴァルドビアーデネ プロセッコ・スーペリオーレ", producer: "アステリア", region: "ヴェネト", price: 2200, priceLabel: "約2,200円", desc: "コネリアーノ・ヴァルドビアーデネの上質。", tags: ["フレッシュ", "イタリアン", "コスパ良"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ファンティネル プロセッコ", producer: "ファンティネル", region: "ヴェネト", price: 1800, priceLabel: "約1,800円", desc: "フリウリの実力派造り手。", tags: ["フレッシュ", "デイリー", "コスパ良"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ベリンガー ブリュット・プロセッコ", producer: "ベリンガー", region: "ヴェネト", price: 1500, priceLabel: "約1,500円", desc: "コスパ良いブリュット。", tags: ["デイリー", "フレッシュ", "コスパ良"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ルッジェーリ・カルティッツェ", producer: "ルッジェーリ", region: "ヴェネト", price: 4500, priceLabel: "約4,500円", desc: "カルティッツェの最上級プロセッコ。", tags: ["フレッシュ", "贈り物向き", "イタリアン"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ボッテガ・モスカート・ペティアン", producer: "ボッテガ", region: "ヴェネト", price: 2200, priceLabel: "約2,200円", desc: "ボッテガの上質銘柄。", tags: ["フレッシュ", "華やか", "贈り物向き"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "コル・ヴェトラーズ ブリュット", producer: "コル・ヴェトラーズ", region: "ヴェネト", price: 2500, priceLabel: "約2,500円", desc: "ヴァルドビアーデネの実力派ブリュット。", tags: ["フレッシュ", "イタリアン", "コスパ良"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ニノ・フランコ ヴィッラ・バルベリ", producer: "ニノ・フランコ", region: "ヴェネト", price: 3500, priceLabel: "約3,500円", desc: "ニノ・フランコの上級ライン。", tags: ["フレッシュ", "贈り物向き", "イタリアン"] },
   { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ビゾル モリヴェッタ", producer: "ビゾル", region: "ヴェネト", price: 3200, priceLabel: "約3,200円", desc: "単一畑のプロセッコ。", tags: ["フレッシュ", "贈り物向き", "イタリアン"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "アステリア・ヴィンテージ・プロセッコ", producer: "アステリア", region: "ヴェネト", price: 2500, priceLabel: "約2,500円", desc: "ヴィンテージプロセッコ。", tags: ["フレッシュ", "贈り物向き", "コスパ良"] },
-  { type: "sparkling", grape: "グレラ（プロセッコ）", name: "ヴァルドビアーデネ・ジュゼッペ・コントラスト", producer: "ジュゼッペ・コントラスト", region: "ヴェネト", price: 2800, priceLabel: "約2,800円", desc: "ヴァルドビアーデネの実力派。", tags: ["フレッシュ", "イタリアン", "贈り物向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "アルベール・ビショー ジュヴレ・シャンベルタン", producer: "アルベール・ビショー", region: "ブルゴーニュ", price: 6500, priceLabel: "約6,500円", desc: "ジュヴレの安定銘柄。", tags: ["エレガント", "ブルゴーニュ", "贈り物向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "ジャン・グリヴォ ヴォーヌ・ロマネ", producer: "ジャン・グリヴォ", region: "ブルゴーニュ", price: 12000, priceLabel: "約12,000円", desc: "ヴォーヌ・ロマネの実力派。", tags: ["プレミアム", "ブルゴーニュ", "記念日"] },
   { type: "red", grape: "ピノ・ノワール", name: "ジャン・グロ ヴォーヌ・ロマネ", producer: "ジャン・グロ", region: "ブルゴーニュ", price: 11000, priceLabel: "約11,000円", desc: "グロ家のヴォーヌ・ロマネ。", tags: ["プレミアム", "ブルゴーニュ", "記念日"] },
@@ -1134,10 +1048,6 @@ const WINE_DB = [
   { type: "red", grape: "ピノ・ノワール", name: "オリヴィエ・ルフレーヴ ピュリニー", producer: "オリヴィエ・ルフレーヴ", region: "ブルゴーニュ", price: 7500, priceLabel: "約7,500円", desc: "ピュリニー村のネゴシアン。", tags: ["エレガント", "ブルゴーニュ", "贈り物向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "ヴァンサン・ジラルダン サン・トーバン", producer: "ヴァンサン・ジラルダン", region: "ブルゴーニュ", price: 5500, priceLabel: "約5,500円", desc: "サン・トーバンのコスパ良。", tags: ["エレガント", "ブルゴーニュ", "食事向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "アラン・ユド ヴォーヌ・ロマネ", producer: "アラン・ユド", region: "ブルゴーニュ", price: 9500, priceLabel: "約9,500円", desc: "ヴォーヌ・ロマネの中堅。", tags: ["プレミアム", "ブルゴーニュ", "贈り物向き"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ラリュエット", producer: "シャトー・ラリュエット", region: "ボルドー", price: 1700, priceLabel: "約1,700円", desc: "ボルドーの手頃な左岸銘柄。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・モンビュス", producer: "シャトー・モンビュス", region: "ボルドー", price: 1500, priceLabel: "約1,500円", desc: "デイリー価格のボルドー。", tags: ["デイリー", "ボルドー", "コスパ良"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ローリオン", producer: "シャトー・ローリオン", region: "ボルドー", price: 2200, priceLabel: "約2,200円", desc: "コスパ良いオー・メドック。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ベリエル・ラ・ジョルドンヌ", producer: "ベリエル・ラ・ジョルドンヌ", region: "オー・メドック", price: 2500, priceLabel: "約2,500円", desc: "クリュ・ブルジョワの良質銘柄。", tags: ["ミディアム", "ボルドー", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ベルグラーヴ", producer: "シャトー・ベルグラーヴ", region: "オー・メドック", price: 5500, priceLabel: "約5,500円", desc: "クリュ・ブルジョワ・スペリュール。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・グロリア", producer: "シャトー・グロリア", region: "サン・ジュリアン", price: 5500, priceLabel: "約5,500円", desc: "サン・ジュリアンの実力派。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ペデスクロー", producer: "シャトー・ペデスクロー", region: "ポイヤック", price: 5500, priceLabel: "約5,500円", desc: "5級格付けのポイヤック。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
@@ -1147,21 +1057,17 @@ const WINE_DB = [
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ラスコンブ・セカンド", producer: "ラスコンブ", region: "マルゴー", price: 2800, priceLabel: "約2,800円", desc: "ラスコンブのセカンドラベル。", tags: ["エレガント", "ボルドー", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ローザン・セグラ", producer: "ローザン・セグラ", region: "マルゴー", price: 11000, priceLabel: "約11,000円", desc: "マルゴーの2級格付け。", tags: ["プレミアム", "ボルドー", "記念日"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・パルメ", producer: "シャトー・パルメ", region: "マルゴー", price: 28000, priceLabel: "約28,000円", desc: "マルゴー3級格付け、5大級の品質。", tags: ["プレミアム", "ボルドー", "コレクション"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "アルテ・マルキ・ダレーム・ベケール", producer: "マルキ・ダレーム・ベケール", region: "マルゴー", price: 4500, priceLabel: "約4,500円", desc: "マルゴーの中堅銘柄。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ボイド・カントナック", producer: "ボイド・カントナック", region: "マルゴー", price: 4500, priceLabel: "約4,500円", desc: "マルゴー3級格付け。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・カントナック・ブラウン", producer: "カントナック・ブラウン", region: "マルゴー", price: 5500, priceLabel: "約5,500円", desc: "マルゴー3級格付け。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・キルワン", producer: "シャトー・キルワン", region: "マルゴー", price: 5500, priceLabel: "約5,500円", desc: "マルゴー3級。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・カロン・セギュール", producer: "カロン・セギュール", region: "サン・テステフ", price: 7500, priceLabel: "約7,500円", desc: "ハートのラベルで有名。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・コス・ラボリ", producer: "コス・ラボリ", region: "サン・テステフ", price: 4500, priceLabel: "約4,500円", desc: "サン・テステフ5級。", tags: ["フルボディ", "ボルドー", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・フェラン・セギュール", producer: "フェラン・セギュール", region: "サン・テステフ", price: 3500, priceLabel: "約3,500円", desc: "サン・テステフの実力派。", tags: ["フルボディ", "ボルドー", "食事向き"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・パージュ", producer: "シャトー・パージュ", region: "サン・テステフ", price: 2200, priceLabel: "約2,200円", desc: "サン・テステフのコスパ良。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・タユヴェルン", producer: "シャトー・タユヴェルン", region: "ボルドー", price: 1800, priceLabel: "約1,800円", desc: "ペサック・レオニャンの手頃な銘柄。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・カルボニュー・ルージュ", producer: "カルボニュー", region: "ペサック・レオニャン", price: 5500, priceLabel: "約5,500円", desc: "ペサックの上質シャトー。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・スミス・オー・ラフィット", producer: "スミス・オー・ラフィット", region: "ペサック・レオニャン", price: 11000, priceLabel: "約11,000円", desc: "ペサックの実力派。", tags: ["プレミアム", "ボルドー", "記念日"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・パプ・クレマン", producer: "パプ・クレマン", region: "ペサック・レオニャン", price: 9500, priceLabel: "約9,500円", desc: "ペサック・レオニャンの名門。", tags: ["プレミアム", "ボルドー", "記念日"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ラ・ミッション・オー・ブリオン", producer: "ラ・ミッション・オー・ブリオン", region: "ペサック・レオニャン", price: 35000, priceLabel: "約35,000円", desc: "オー・ブリオンの姉妹シャトー。", tags: ["プレミアム", "ボルドー", "コレクション"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "ル・クラレンス・ド・オー・ブリオン", producer: "オー・ブリオン", region: "グラーヴ", price: 22000, priceLabel: "約22,000円", desc: "オー・ブリオンのセカンド。", tags: ["プレミアム", "ボルドー", "記念日"] },
-  { type: "red", grape: "メルロー", name: "シャトー・フォーリー", producer: "シャトー・フォーリー", region: "ボルドー", price: 2200, priceLabel: "約2,200円", desc: "コスパ良い右岸メルロー。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
   { type: "red", grape: "メルロー", name: "シャトー・ラフルール・ガザン", producer: "ラフルール・ガザン", region: "ポムロール", price: 7500, priceLabel: "約7,500円", desc: "ポムロールの実力派。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "メルロー", name: "シャトー・ガザン", producer: "シャトー・ガザン", region: "ポムロール", price: 9500, priceLabel: "約9,500円", desc: "ポムロールの伝統的シャトー。", tags: ["プレミアム", "ボルドー", "記念日"] },
   { type: "red", grape: "メルロー", name: "シャトー・クロワ・ド・ガイ", producer: "クロワ・ド・ガイ", region: "ポムロール", price: 4500, priceLabel: "約4,500円", desc: "ポムロールの良質銘柄。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
@@ -1202,14 +1108,8 @@ const WINE_DB = [
   { type: "red", grape: "ネッビオーロ", name: "バルバレスコ プロデュットーリ", producer: "プロデュットーリ・デル・バルバレスコ", region: "ピエモンテ", price: 4500, priceLabel: "約4,500円", desc: "バルバレスコの協同組合。", tags: ["フルボディ", "イタリアン", "贈り物向き"] },
   { type: "red", grape: "バルベラ", name: "バルベラ・ダルバ ヴィエッティ", producer: "ヴィエッティ", region: "ピエモンテ", price: 2500, priceLabel: "約2,500円", desc: "ピエモンテの実力派バルベラ。", tags: ["ミディアム", "イタリアン", "食事向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "クネ クネ・ガルナッチャ", producer: "クネ", region: "リオハ", price: 1800, priceLabel: "約1,800円", desc: "クネのガルナッチャ・ブレンド。", tags: ["ミディアム", "コスパ良", "食事向き"] },
-  { type: "red", grape: "テンプラニーリョ", name: "ロケ・ラスカル ガルナッチャ", producer: "ロケ・ラスカル", region: "スペイン", price: 1300, priceLabel: "約1,300円", desc: "コスパ良いガルナッチャ。", tags: ["デイリー", "コスパ良", "果実味"] },
-  { type: "red", grape: "テンプラニーリョ", name: "アバドニア", producer: "アバドニア", region: "リベラ・デル・ドゥエロ", price: 2500, priceLabel: "約2,500円", desc: "リベラの良質テンプラニーリョ。", tags: ["ミディアム", "スペイン", "食事向き"] },
-  { type: "red", grape: "テンプラニーリョ", name: "ベロンテス エル・パドリーノ", producer: "ベロンテス", region: "リオハ", price: 1900, priceLabel: "約1,900円", desc: "コスパ重視のリオハ。", tags: ["ミディアム", "熟成", "コスパ良"] },
-  { type: "red", grape: "テンプラニーリョ", name: "ボデガス・ロケ レス・テラセス", producer: "ロケ", region: "プリオラート", price: 3500, priceLabel: "約3,500円", desc: "プリオラートの実力派。", tags: ["フルボディ", "スペイン", "食事向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "アルタディ・ヴィーニャス・デ・ガイン", producer: "アルタディ", region: "リオハ", price: 4500, priceLabel: "約4,500円", desc: "アルタディの単一畑。", tags: ["プレミアム", "リオハ", "贈り物向き"] },
-  { type: "red", grape: "テンプラニーリョ", name: "ロロ・グラン・レゼルバ", producer: "ロロ", region: "リオハ", price: 3500, priceLabel: "約3,500円", desc: "リオハの伝統的グラン・レゼルバ。", tags: ["フルボディ", "熟成", "贈り物向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "コンタドール・コーラル", producer: "ベンハミン・ロメオ", region: "リオハ", price: 7500, priceLabel: "約7,500円", desc: "コンタドールのセカンド。", tags: ["プレミアム", "リオハ", "記念日"] },
-  { type: "red", grape: "テンプラニーリョ", name: "アロマ・デ・トロ", producer: "アロマ・デ・トロ", region: "トロ", price: 1700, priceLabel: "約1,700円", desc: "トロ地域のテンプラニーリョ。", tags: ["フルボディ", "スペイン", "コスパ良"] },
   { type: "red", grape: "テンプラニーリョ", name: "ヌマンシア", producer: "ヌマンシア", region: "トロ", price: 4500, priceLabel: "約4,500円", desc: "トロの代表的造り手。", tags: ["フルボディ", "スペイン", "贈り物向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "ピンティア", producer: "ベガ・シシリア", region: "トロ", price: 9500, priceLabel: "約9,500円", desc: "ベガ・シシリア所有のトロ。", tags: ["プレミアム", "スペイン", "記念日"] },
   { type: "red", grape: "テンプラニーリョ", name: "アバディア・レトゥエルタ・パゴ", producer: "アバディア・レトゥエルタ", region: "カスティーリャ", price: 5500, priceLabel: "約5,500円", desc: "上質単一畑。", tags: ["フルボディ", "スペイン", "贈り物向き"] },
@@ -1217,8 +1117,6 @@ const WINE_DB = [
   { type: "red", grape: "テンプラニーリョ", name: "シエラ・カンタブリア・コレクション", producer: "シエラ・カンタブリア", region: "リオハ", price: 4500, priceLabel: "約4,500円", desc: "シエラ・カンタブリアの上質銘柄。", tags: ["フルボディ", "リオハ", "贈り物向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "シエラ・カンタブリア・アマンシオ", producer: "シエラ・カンタブリア", region: "リオハ", price: 9500, priceLabel: "約9,500円", desc: "シエラ最高峰の単一畑。", tags: ["プレミアム", "リオハ", "記念日"] },
   { type: "red", grape: "テンプラニーリョ", name: "コンチャ・イ・トロ・カサ・コンチャ", producer: "コンチャ・イ・トロ", region: "チリ", price: 2200, priceLabel: "約2,200円", desc: "悪魔ラベルの上級ライン。", tags: ["フルボディ", "コスパ良", "食事向き"] },
-  { type: "red", grape: "テンプラニーリョ", name: "イスラス・カナリアス", producer: "イスラス・カナリアス", region: "スペイン", price: 2500, priceLabel: "約2,500円", desc: "カナリア諸島のユニークな赤。", tags: ["フルボディ", "スペイン", "食事向き"] },
-  { type: "red", grape: "テンプラニーリョ", name: "コンデ・サン・クリストヴァル", producer: "コンデ・サン・クリストヴァル", region: "リベラ・デル・ドゥエロ", price: 4500, priceLabel: "約4,500円", desc: "リベラの上質テンプラニーリョ。", tags: ["フルボディ", "スペイン", "贈り物向き"] },
   { type: "red", grape: "テンプラニーリョ", name: "ヴィーニャ・サストレ レゲンドール", producer: "ヴィーニャ・サストレ", region: "リベラ・デル・ドゥエロ", price: 5500, priceLabel: "約5,500円", desc: "サストレのプレステージュ。", tags: ["プレミアム", "スペイン", "記念日"] },
   { type: "red", grape: "テンプラニーリョ", name: "ペスケラ・ヤヌス", producer: "ペスケラ", region: "リベラ・デル・ドゥエロ", price: 9500, priceLabel: "約9,500円", desc: "ペスケラ最高峰。", tags: ["プレミアム", "スペイン", "記念日"] },
   { type: "white", grape: "シャルドネ", name: "ケンダル・ジャクソン・グランド・リザーヴ", producer: "ケンダル・ジャクソン", region: "カリフォルニア", price: 4500, priceLabel: "約4,500円", desc: "ケンダル・ジャクソンの上級ライン。", tags: ["まろやか", "ナパ", "贈り物向き"] },
@@ -1227,10 +1125,8 @@ const WINE_DB = [
   { type: "white", grape: "シャルドネ", name: "シャトー・モンテリーナ・カリストガ", producer: "シャトー・モンテリーナ", region: "ナパ", price: 5500, priceLabel: "約5,500円", desc: "ナパの上質シャルドネ。", tags: ["まろやか", "ナパ", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "シルバラード ヴィンヤーズ シャルドネ", producer: "シルバラード", region: "ナパ", price: 4500, priceLabel: "約4,500円", desc: "ナパの良質シャルドネ。", tags: ["まろやか", "ナパ", "食事向き"] },
   { type: "white", grape: "シャルドネ", name: "クロ・ペガス・ミツコ・シャルドネ", producer: "クロ・ペガス", region: "ナパ", price: 5500, priceLabel: "約5,500円", desc: "ナパの個性派造り手。", tags: ["まろやか", "ナパ", "贈り物向き"] },
-  { type: "white", grape: "シャルドネ", name: "デヒッ・ボワ・シャルドネ", producer: "デヒッ・ボワ", region: "ソノマ", price: 6500, priceLabel: "約6,500円", desc: "ソノマの上質造り手。", tags: ["エレガント", "ナパ", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "ライムストーン・コースト シャルドネ", producer: "ハーディーズ", region: "オーストラリア", price: 1700, priceLabel: "約1,700円", desc: "オーストラリアのコスパ良。", tags: ["まろやか", "コスパ良", "食事向き"] },
   { type: "white", grape: "シャルドネ", name: "ヴァッセ・フェリックス シャルドネ", producer: "ヴァッセ・フェリックス", region: "オーストラリア", price: 5500, priceLabel: "約5,500円", desc: "マーガレット・リヴァーの上質銘柄。", tags: ["まろやか", "贈り物向き", "ニューワールド"] },
-  { type: "white", grape: "シャルドネ", name: "クルーフ・ストリート シャルドネ", producer: "クルーフ・ストリート", region: "ニュージーランド", price: 2500, priceLabel: "約2,500円", desc: "NZの実力派シャルドネ。", tags: ["フルーティー", "コスパ良", "食事向き"] },
   { type: "white", grape: "シャルドネ", name: "テ・マタ・コール・ヒッパー", producer: "テ・マタ", region: "ニュージーランド", price: 4500, priceLabel: "約4,500円", desc: "ホークス・ベイの伝統的造り手。", tags: ["エレガント", "ニューワールド", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "ヴィラ・マリア リザーヴ シャルドネ", producer: "ヴィラ・マリア", region: "ニュージーランド", price: 3500, priceLabel: "約3,500円", desc: "ヴィラ・マリアの上級ライン。", tags: ["まろやか", "ニューワールド", "贈り物向き"] },
   { type: "white", grape: "シャルドネ", name: "シャトー・ステ・ミシェル インディアン・ウェルズ", producer: "シャトー・ステ・ミシェル", region: "ワシントン", price: 3500, priceLabel: "約3,500円", desc: "ワシントンの上質シャルドネ。", tags: ["まろやか", "贈り物向き", "食事向き"] },
@@ -1241,23 +1137,17 @@ const WINE_DB = [
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "シャトー・スミス・オー・ラフィット・ブラン", producer: "スミス・オー・ラフィット", region: "ペサック・レオニャン", price: 11000, priceLabel: "約11,000円", desc: "ペサックの実力派。", tags: ["プレミアム", "ボルドー", "記念日"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "シャトー・パプ・クレマン・ブラン", producer: "パプ・クレマン", region: "ペサック・レオニャン", price: 11000, priceLabel: "約11,000円", desc: "パプ・クレマンの白。", tags: ["プレミアム", "ボルドー", "記念日"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "シャトー・オー・ブリオン・ブラン", producer: "シャトー・オー・ブリオン", region: "グラーヴ", price: 65000, priceLabel: "約65,000円", desc: "ボルドー白の頂点。", tags: ["プレミアム", "コレクション", "稀少"] },
-  { type: "white", grape: "ソーヴィニヨン・ブラン", name: "シャトー・カンテミルル・ブラン", producer: "カンテミルル", region: "ボルドー", price: 1900, priceLabel: "約1,900円", desc: "コスパ良いボルドー白。", tags: ["爽やか", "ボルドー", "コスパ良"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "シャトー・トゥール・レオニャン・ブラン", producer: "トゥール・レオニャン", region: "ペサック・レオニャン", price: 3200, priceLabel: "約3,200円", desc: "ペサックの良質造り手。", tags: ["エレガント", "ボルドー", "食事向き"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "アントル・ドゥ・メール ドゥルト", producer: "ドゥルト", region: "ボルドー", price: 1500, priceLabel: "約1,500円", desc: "アントル・ドゥ・メールの定番。", tags: ["デイリー", "ボルドー", "コスパ良"] },
-  { type: "white", grape: "ソーヴィニヨン・ブラン", name: "シャトー・ル・グラン・ヴェルディ", producer: "ル・グラン・ヴェルディ", region: "ボルドー", price: 1700, priceLabel: "約1,700円", desc: "コスパ重視のボルドー白。", tags: ["爽やか", "ボルドー", "コスパ良"] },
   { type: "white", grape: "シャルドネ", name: "クネ モンテ・レアル ブラン", producer: "クネ", region: "リオハ", price: 2500, priceLabel: "約2,500円", desc: "リオハの伝統的白ワイン。", tags: ["まろやか", "スペイン", "食事向き"] },
   { type: "white", grape: "シャルドネ", name: "マルケス・デ・カセレス ブラン", producer: "マルケス・デ・カセレス", region: "リオハ", price: 1900, priceLabel: "約1,900円", desc: "親しみやすいリオハ白。", tags: ["まろやか", "コスパ良", "食事向き"] },
   { type: "white", grape: "シャルドネ", name: "ロペス・デ・エレディア・ヴィーニャ・トンドニア・ブラン", producer: "ロペス・デ・エレディア", region: "リオハ", price: 6500, priceLabel: "約6,500円", desc: "リオハ白の伝説。", tags: ["プレミアム", "スペイン", "記念日"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "ルエダ・ベルデホ マルケス・デ・リスカル", producer: "マルケス・デ・リスカル", region: "スペイン", price: 1700, priceLabel: "約1,700円", desc: "ルエダのフレッシュな白。", tags: ["爽やか", "スペイン", "コスパ良"] },
   { type: "white", grape: "ソーヴィニヨン・ブラン", name: "プロトス ベルデホ", producer: "プロトス", region: "スペイン", price: 1900, priceLabel: "約1,900円", desc: "プロトスのルエダ。", tags: ["爽やか", "スペイン", "コスパ良"] },
-  { type: "white", grape: "ソーヴィニヨン・ブラン", name: "オストラ ルエダ ベルデホ", producer: "オストラ", region: "スペイン", price: 1500, priceLabel: "約1,500円", desc: "デイリー価格のルエダ。", tags: ["デイリー", "爽やか", "コスパ良"] },
-  { type: "white", grape: "ソーヴィニヨン・ブラン", name: "ベラート ベルデホ", producer: "ベラート", region: "スペイン", price: 1300, priceLabel: "約1,300円", desc: "コスパ重視のスペイン白。", tags: ["デイリー", "コスパ良", "爽やか"] },
   { type: "white", grape: "リースリング", name: "ドンホフ リースリング・トロッケン", producer: "ドンホフ", region: "ナーエ", price: 3500, priceLabel: "約3,500円", desc: "ナーエの名門造り手。", tags: ["辛口", "ドイツ", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "ケラー リースリング", producer: "ケラー", region: "ラインヘッセン", price: 5500, priceLabel: "約5,500円", desc: "ラインヘッセンの最高峰造り手。", tags: ["プレミアム", "ドイツ", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "ヴィットマン リースリング", producer: "ヴィットマン", region: "ラインヘッセン", price: 4500, priceLabel: "約4,500円", desc: "ヴィットマンの実力派。", tags: ["エレガント", "ドイツ", "贈り物向き"] },
   { type: "white", grape: "リースリング", name: "ザンクト・ウルバンスホフ リースリング", producer: "ザンクト・ウルバンスホフ", region: "モーゼル", price: 2200, priceLabel: "約2,200円", desc: "モーゼルのコスパ良造り手。", tags: ["やや甘口", "ドイツ", "コスパ良"] },
-  { type: "white", grape: "リースリング", name: "ヴァインゼーター リースリング", producer: "ヴァインゼーター", region: "ファルツ", price: 2500, priceLabel: "約2,500円", desc: "ファルツの実力派。", tags: ["辛口", "ドイツ", "食事向き"] },
-  { type: "white", grape: "リースリング", name: "ライツ・カイザーハウス", producer: "ライツ", region: "ラインガウ", price: 1700, priceLabel: "約1,700円", desc: "ライツのコスパ良ライン。", tags: ["やや甘口", "ドイツ", "コスパ良"] },
   { type: "white", grape: "リースリング", name: "ロウゼン リースリング・ドライ", producer: "ロウゼン", region: "モーゼル", price: 1900, priceLabel: "約1,900円", desc: "ロウゼンの辛口リースリング。", tags: ["辛口", "ドイツ", "コスパ良"] },
   { type: "white", grape: "リースリング", name: "JJ・プリュム カビネット", producer: "JJ・プリュム", region: "モーゼル", price: 4500, priceLabel: "約4,500円", desc: "JJ・プリュムのカビネット。", tags: ["やや甘口", "ドイツ", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "パヴィヨン・ルージュ・デュ・シャトー・マルゴー", producer: "シャトー・マルゴー", region: "マルゴー", price: 28000, priceLabel: "約28,000円", desc: "シャトー・マルゴーのセカンド。女王の優美さを手の届く形で。", tags: ["プレミアム", "ボルドー", "記念日"] },
@@ -1295,13 +1185,11 @@ const WINE_DB = [
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・プジョー", producer: "シャトー・プジョー", region: "ムーリス", price: 3200, priceLabel: "約3,200円", desc: "ムーリスの実力派。神の雫でも話題に。", tags: ["フルボディ", "ボルドー", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ソシアンド・マレ", producer: "ソシアンド・マレ", region: "オー・メドック", price: 4500, priceLabel: "約4,500円", desc: "格付け外ながら愛好家が絶賛する実力派。", tags: ["フルボディ", "ボルドー", "贈り物向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ポタンサック", producer: "シャトー・ポタンサック", region: "メドック", price: 2800, priceLabel: "約2,800円", desc: "レオヴィル・ラスカーズと同オーナーの掘り出し物。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ラベゴルス", producer: "シャトー・ラベゴルス", region: "マルゴー", price: 3500, priceLabel: "約3,500円", desc: "マルゴー村の良質クリュ・ブルジョワ。", tags: ["エレガント", "ボルドー", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・シラン", producer: "シャトー・シラン", region: "マルゴー", price: 3200, priceLabel: "約3,200円", desc: "マルゴー村の安定株。エレガント。", tags: ["エレガント", "ボルドー", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ダングリュデ", producer: "シャトー・ダングリュデ", region: "マルゴー", price: 3500, priceLabel: "約3,500円", desc: "英国人一家が営む上質クリュ・ブルジョワ。", tags: ["エレガント", "ボルドー", "食事向き"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ラローズ・トラントドン", producer: "ラローズ・トラントドン", region: "オー・メドック", price: 1900, priceLabel: "約1,900円", desc: "日本でも人気の大型シャトー。デイリーボルドーの定番。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・シトラン", producer: "シャトー・シトラン", region: "オー・メドック", price: 2200, priceLabel: "約2,200円", desc: "日本市場で長年愛されるクリュ・ブルジョワ。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ラネッサン", producer: "シャトー・ラネッサン", region: "オー・メドック", price: 2500, priceLabel: "約2,500円", desc: "コスパに定評のあるオー・メドック。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
-  { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・ラ・トゥール・ド・ビー", producer: "ラ・トゥール・ド・ビー", region: "メドック", price: 1900, priceLabel: "約1,900円", desc: "メドック北部の堅実な造り手。", tags: ["ミディアム", "ボルドー", "コスパ良"] },
   { type: "red", grape: "カベルネ・ソーヴィニヨン", name: "シャトー・カンボン・ラ・プルーズ", producer: "カンボン・ラ・プルーズ", region: "オー・メドック", price: 2800, priceLabel: "約2,800円", desc: "マルゴー隣接の実力派。", tags: ["ミディアム", "ボルドー", "食事向き"] },
   { type: "red", grape: "ピノ・ノワール", name: "ドニ・モルテ ジュヴレ・シャンベルタン", producer: "ドニ・モルテ", region: "ブルゴーニュ", price: 15000, priceLabel: "約15,000円", desc: "ジュヴレの人気ドメーヌ。濃密でピュア。", tags: ["プレミアム", "ブルゴーニュ", "記念日"] },
   { type: "red", grape: "ピノ・ノワール", name: "フーリエ ジュヴレ・シャンベルタン", producer: "ドメーヌ・フーリエ", region: "ブルゴーニュ", price: 25000, priceLabel: "約25,000円", desc: "入手困難な人気ドメーヌ。妖艶な香り。", tags: ["プレミアム", "ブルゴーニュ", "コレクション"] },
@@ -1388,7 +1276,6 @@ const WINE_DB = [
   { type: "white", grape: "甲州", name: "アルガブランカ イセハラ", producer: "勝沼醸造", region: "山梨", price: 4500, priceLabel: "約4,500円", desc: "単一畑甲州の傑作。ミネラル感豊か。", tags: ["エレガント", "日本ワイン", "贈り物向き"] },
   { type: "white", grape: "甲州", name: "アルガブランカ クラレーザ", producer: "勝沼醸造", region: "山梨", price: 2200, priceLabel: "約2,200円", desc: "シュールリー製法の旨み豊かな甲州。", tags: ["爽やか", "日本ワイン", "魚介"] },
   { type: "white", grape: "甲州", name: "ルバイヤート甲州シュールリー", producer: "丸藤葡萄酒工業", region: "山梨", price: 2000, priceLabel: "約2,000円", desc: "勝沼の老舗による滋味深い甲州。", tags: ["爽やか", "日本ワイン", "コスパ良"] },
-  { type: "white", grape: "甲州", name: "セラーマスター甲州", producer: "蒼龍葡萄酒", region: "山梨", price: 1500, priceLabel: "約1,500円", desc: "手頃な価格で楽しむ本格甲州。", tags: ["デイリー", "日本ワイン", "コスパ良"] },
   { type: "white", grape: "甲州", name: "ラフィーユ 樽甲州", producer: "まるき葡萄酒", region: "山梨", price: 2200, priceLabel: "約2,200円", desc: "日本最古のワイナリーによる樽熟甲州。", tags: ["まろやか", "日本ワイン", "食事向き"] },
   { type: "white", grape: "甲州", name: "サントリー ジャパンプレミアム甲州", producer: "サントリー", region: "山梨", price: 1800, priceLabel: "約1,800円", desc: "大手の技術が光る端正な甲州。", tags: ["爽やか", "日本ワイン", "コスパ良"] },
   { type: "white", grape: "甲州", name: "グランポレール 甲州", producer: "サッポロビール", region: "山梨", price: 2000, priceLabel: "約2,000円", desc: "透明感ある味わいの定番甲州。", tags: ["爽やか", "日本ワイン", "コスパ良"] },
@@ -1603,7 +1490,8 @@ const WINE_DB = [
 // 空文字("")のままなら通常の検索リンクとして動作します
 // ============================================
 const AFFILIATE = {
-  rakutenId: "557bdb12.7c2cb6b9.557bdb13.16df9114",   // 例: "1a2b3c4d.5e6f7g8h.1a2b3c4d.5e6f7g8i"
+  rakutenId: "",
+  rakutenAppId: "",   // 楽天ウェブサービスのアプリID（実在確認・実売価格の取得に使用）   // 例: "1a2b3c4d.5e6f7g8h.1a2b3c4d.5e6f7g8i"
   amazonTag: "",   // 例: "yourname-22"
 };
 
@@ -1611,7 +1499,7 @@ const AFFILIATE = {
 let S = {
   step: 1, wineType: "", country: "", grape: "",
   pricePreset: "", customPrice: "", occasion: "", mood: "",
-  wines: null, excluded: [], priceRelaxed: false, error: ""
+  wines: null, excluded: [], priceRelaxed: false, error: "", loading: false, checkedNames: []
 };
 
 // ---------- helpers ----------
@@ -1645,7 +1533,7 @@ function priceRange() {
   }
   return { min, max };
 }
-function pickWines({ type, grape, country, priceMin, priceMax, occasion, mood, exclude = [] }) {
+function pickWines({ type, grape, country, priceMin, priceMax, occasion, mood, exclude = [], limit = 3 }) {
   const countryObj = COUNTRIES.find(c => c.id === country);
   const regions = countryObj ? countryObj.regions : null;
   const mCountry = w => !regions || regions.some(r => w.region.includes(r));
@@ -1695,10 +1583,12 @@ function pickWines({ type, grape, country, priceMin, priceMax, occasion, mood, e
     return Object.assign({}, w, { _score: score });
   }).sort((a, b) => b._score - a._score);
 
-  return { picks: scored.slice(0, 3), priceRelaxed };
+  return { picks: scored.slice(0, limit), priceRelaxed };
 }
 function rakutenUrl(name, price) {
+  // 中黒を空白に置き換えて検索をヒットしやすくする
   const kw = name.replace(/[・]/g, " ") + (name.indexOf("ワイン") >= 0 ? "" : " ワイン");
+  // 価格帯はゆるめに指定（結果ゼロを避けるため除外ワードは使わない）
   let q = "";
   if (price) {
     const min = Math.max(0, Math.floor(price * 0.5 / 100) * 100);
@@ -1713,6 +1603,77 @@ function rakutenUrl(name, price) {
 function amazonUrl(name) {
   return "https://www.amazon.co.jp/s?k=" + encodeURIComponent(name + " ワイン") + (AFFILIATE.amazonTag ? "&tag=" + AFFILIATE.amazonTag : "");
 }
+
+// ---------- 楽天APIによる実在確認 ----------
+const RAKUTEN_API = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706";
+let _jsonpSeq = 0;
+
+function jsonp(base, params, timeoutMs) {
+  return new Promise((resolve) => {
+    const cb = "__rkt_cb_" + (++_jsonpSeq) + "_" + Date.now();
+    const sc = document.createElement("script");
+    let done = false;
+    const cleanup = () => {
+      if (done) return; done = true;
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (sc.parentNode) sc.parentNode.removeChild(sc);
+    };
+    window[cb] = (data) => { const d = data; cleanup(); resolve(d); };
+    const qs = Object.keys(params).map(k => k + "=" + encodeURIComponent(params[k])).join("&");
+    sc.src = base + "?" + qs + "&callback=" + cb;
+    sc.onerror = () => { cleanup(); resolve(null); };
+    document.head.appendChild(sc);
+    setTimeout(() => { cleanup(); resolve(null); }, timeoutMs || 6000);
+  });
+}
+
+// 商品名がそのワインらしいかを簡易判定
+function looksLikeMatch(itemName, wine) {
+  const n = itemName || "";
+  // ノンアルコール等は除外
+  if (/ノンアル|アルコールフリー|ノン・アル|微アルコール/.test(n)) return false;
+  // ワイン名から特徴的なトークン（2文字以上）を取り出し、半分以上含まれていればOK
+  const tokens = wine.name.replace(/[・（）()]/g, " ").split(/\s+/).filter(t => t.length >= 2);
+  if (!tokens.length) return true;
+  let hit = 0;
+  tokens.forEach(t => { if (n.indexOf(t) >= 0) hit++; });
+  return hit / tokens.length >= 0.5;
+}
+
+// 1本ぶんの実在確認。見つかれば実売情報を返す
+async function verifyWine(wine) {
+  if (!AFFILIATE.rakutenAppId) return null;
+  const kw = wine.name.replace(/[・]/g, " ");
+  const params = {
+    applicationId: AFFILIATE.rakutenAppId,
+    format: "json",
+    formatVersion: 2,
+    keyword: kw,
+    hits: 5,
+    minPrice: Math.max(100, Math.floor(wine.price * 0.4)),
+    maxPrice: Math.ceil(wine.price * 3),
+    sort: "+itemPrice",
+    imageFlag: 1
+  };
+  if (AFFILIATE.rakutenId) params.affiliateId = AFFILIATE.rakutenId;
+  const data = await jsonp(RAKUTEN_API, params, 6000);
+  if (!data || !data.Items || !data.Items.length) return null;
+  const items = data.Items.map(x => x.Item ? x.Item : x);
+  const hit = items.find(it => looksLikeMatch(it.itemName, wine));
+  if (!hit) return null;
+  return {
+    itemName: hit.itemName,
+    price: hit.itemPrice,
+    url: hit.affiliateUrl || hit.itemUrl,
+    shop: hit.shopName || "",
+    image: (hit.mediumImageUrls && hit.mediumImageUrls[0])
+      ? (typeof hit.mediumImageUrls[0] === "string" ? hit.mediumImageUrls[0] : hit.mediumImageUrls[0].imageUrl)
+      : ""
+  };
+}
+
+function yen(n) { return "約" + Number(n).toLocaleString("ja-JP") + "円"; }
+
 function typeObj() { return WINE_TYPES.find(t => t.id === S.wineType); }
 function canProceed() {
   if (S.step === 1) return !!S.wineType;
@@ -1805,22 +1766,35 @@ function render() {
     if (S.wineType !== "sparkling" && c && c.id !== "any") parts.push(c.label);
     parts.push(S.grape, priceLabelText());
     h += '<div class="fade"><div class="eyebrow">Sommelier\'s Pick</div>';
-    h += '<div class="q">あなたへのおすすめ ' + S.wines.length + "本</div>";
+    h += '<div class="q">あなたへのおすすめ ' + (S.loading ? "" : S.wines.length + "本") + "</div>";
     h += '<div class="sub">' + parts.filter(Boolean).join(" · ") + "</div>";
     if (S.priceRelaxed) h += '<div class="notice">ご予算内に合うワインが見つからなかったため、近い価格帯からお選びしています。</div>';
+    if (S.loading) h += '<div class="notice">楽天で実際に購入できるワインを確認しています…</div>';
+
     S.wines.forEach((w, i) => {
+      const live = w.live;
       h += '<div class="card" style="animation-delay:' + (i * 0.15) + 's">'
         + '<div class="cardTop"><div><div class="no">No.' + (i + 1) + ' Recommendation</div>'
         + '<div class="name">' + w.name + '</div>'
         + '<div class="prod">' + w.producer + " · " + w.region + "</div></div>"
-        + '<div class="price">' + w.priceLabel + "</div></div>"
+        + '<div class="price">' + (live ? yen(live.price) : w.priceLabel) + "</div></div>"
         + '<p class="desc">' + w.desc + "</p>"
-        + '<div class="tags">' + w.tags.map(t => '<span class="tag">' + t + "</span>").join("") + "</div>"
-        + '<div class="links">'
-        + '<a class="rak" href="' + rakutenUrl(w.name, w.price) + '" target="_blank" rel="noopener noreferrer">楽天で探す</a>'
+        + '<div class="tags">' + w.tags.map(t => '<span class="tag">' + t + "</span>").join("") + "</div>";
+      if (live) {
+        h += '<div class="liveBox">'
+          + (live.image ? '<img class="liveImg" src="' + live.image + '" alt="" loading="lazy">' : "")
+          + '<div class="liveTxt"><div class="liveName">' + live.itemName + '</div>'
+          + (live.shop ? '<div class="liveShop">' + live.shop + '</div>' : "")
+          + "</div></div>";
+      }
+      h += '<div class="links">'
+        + '<a class="rak" href="' + (live ? live.url : rakutenUrl(w.name, w.price)) + '" target="_blank" rel="noopener noreferrer">' + (live ? "楽天で購入する" : "楽天で探す") + '</a>'
         + '<a class="amz" href="' + amazonUrl(w.name) + '" target="_blank" rel="noopener noreferrer">Amazonで探す</a>'
         + "</div></div>";
     });
+    if (!S.loading && !S.wines.length) {
+      h += '<div class="notice">条件に合う在庫が楽天で見つかりませんでした。条件を変えてお試しください。</div>';
+    }
     h += '<button class="rerollBtn" data-action="reroll">🎲 同じ条件でもう3本</button>';
     h += '<button class="resetBtn" data-action="reset">← もう一度探す</button></div>';
   }
@@ -1847,24 +1821,53 @@ function updateNextBtn() {
   }
 }
 
-function recommend(excludeList) {
+async function recommend(excludeList) {
   S.error = "";
   const { min, max } = priceRange();
+  // APIで実在確認する場合は多めに候補を取る
+  const useApi = !!AFFILIATE.rakutenAppId;
   const r = pickWines({
     type: S.wineType, grape: S.grape, country: S.country,
     priceMin: min, priceMax: max, occasion: S.occasion, mood: S.mood,
-    exclude: excludeList
+    exclude: excludeList, limit: useApi ? 10 : 3
   });
   if (!r.picks.length) {
     S.error = "条件に合うワインが見つかりませんでした。条件を変えてみてください。";
     render();
     return;
   }
-  S.wines = r.picks;
   S.priceRelaxed = r.priceRelaxed;
-  S.step = 6;
+
+  if (!useApi) {
+    S.wines = r.picks.slice(0, 3).map(w => Object.assign({}, w, { live: null }));
+    S.step = 6; render(); window.scrollTo(0, 0);
+    return;
+  }
+
+  // 確認中の画面を表示
+  S.loading = true; S.step = 6; S.wines = [];
+  render(); window.scrollTo(0, 0);
+
+  const found = [];
+  const checked = [];
+  for (const w of r.picks) {
+    checked.push(w.name);
+    const live = await verifyWine(w);
+    if (live) {
+      found.push(Object.assign({}, w, { live }));
+      S.wines = found.slice();
+      render();                       // 見つかった順に表示
+      if (found.length >= 3) break;
+    }
+    await new Promise(res => setTimeout(res, 350));  // API負荷に配慮
+  }
+  S.checkedNames = checked;
+  S.loading = false;
+  if (!found.length) {
+    // 全滅時はDBの情報だけで表示（リンクは通常検索）
+    S.wines = r.picks.slice(0, 3).map(w => Object.assign({}, w, { live: null }));
+  }
   render();
-  window.scrollTo(0, 0);
 }
 
 // ---------- events ----------
@@ -1893,7 +1896,7 @@ document.addEventListener("click", e => {
     recommend(S.excluded);
   }
   if (a === "reset") {
-    S = { step: 1, wineType: "", country: "", grape: "", pricePreset: "", customPrice: "", occasion: "", mood: "", wines: null, excluded: [], priceRelaxed: false, error: "" };
+    S = { step: 1, wineType: "", country: "", grape: "", pricePreset: "", customPrice: "", occasion: "", mood: "", wines: null, excluded: [], priceRelaxed: false, error: "", loading: false, checkedNames: [] };
     render(); window.scrollTo(0, 0);
   }
 });
