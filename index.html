@@ -1698,13 +1698,14 @@ function pickWines({ type, grape, country, priceMin, priceMax, occasion, mood, e
   return { picks: scored.slice(0, 3), priceRelaxed };
 }
 function rakutenUrl(name, price) {
+  const kw = name.replace(/[・]/g, " ") + (name.indexOf("ワイン") >= 0 ? "" : " ワイン");
   let q = "";
   if (price) {
-    const min = Math.max(0, Math.floor(price * 0.6 / 100) * 100);
-    const max = Math.ceil(price * 1.8 / 100) * 100;
-    q = "?min=" + min + "&max=" + max + "&nitem=" + encodeURIComponent("セット 6本 12本 ケース 飲み比べ");
+    const min = Math.max(0, Math.floor(price * 0.5 / 100) * 100);
+    const max = Math.ceil(price * 3 / 100) * 100;
+    q = "?min=" + min + "&max=" + max;
   }
-  const u = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(name + " ワイン") + "/" + q;
+  const u = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(kw) + "/" + q;
   return AFFILIATE.rakutenId
     ? "https://hb.afl.rakuten.co.jp/hgc/" + AFFILIATE.rakutenId + "/?pc=" + encodeURIComponent(u) + "&m=" + encodeURIComponent(u)
     : u;
