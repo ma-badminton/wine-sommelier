@@ -1490,9 +1490,9 @@ const WINE_DB = [
 // 空文字("")のままなら通常の検索リンクとして動作します
 // ============================================
 const AFFILIATE = {
-  rakutenId: "557bdb12.7c2cb6b9.557bdb13.16df9114",
-  rakutenAppId: "663fb00c-2fbf-4fb4-ab7d-cbb147d5e01d",       // 楽天ウェブサービスの「アプリID」
-  rakutenAccessKey: "pk_AXcSdHn9rsQh6ou5xlsCxr3xQtODfaNeLBQ7Kg6SnvM",   // 楽天ウェブサービスの「アクセスキー」   // 例: "1a2b3c4d.5e6f7g8h.1a2b3c4d.5e6f7g8i"
+  rakutenId: "",
+  rakutenAppId: "",       // 楽天ウェブサービスの「アプリID」
+  rakutenAccessKey: "",   // 楽天ウェブサービスの「アクセスキー」   // 例: "1a2b3c4d.5e6f7g8h.1a2b3c4d.5e6f7g8i"
   amazonTag: "",   // 例: "yourname-22"
 };
 
@@ -1612,6 +1612,7 @@ const RAKUTEN_ENDPOINTS = [
 ];
 let _rktEndpoint = null;     // 成功したエンドポイントを記憶
 let _rktFailed = false;      // 接続不能フラグ
+let _rktOk = false;          // 一度でも成功したか
 let _jsonpSeq = 0;
 
 function jsonp(base, params, timeoutMs) {
@@ -1643,11 +1644,11 @@ async function callRakuten(params) {
       const res = await fetch(ep + "?" + qs);
       if (res.ok) {
         const data = await res.json();
-        if (data && data.Items) { _rktEndpoint = ep; return data; }
+        if (data && data.Items) { _rktEndpoint = ep; _rktOk = true; return data; }
       }
     } catch (e) { /* CORS等は無視してJSONPへ */ }
     const jd = await jsonp(ep, params, 7000);
-    if (jd && jd.Items) { _rktEndpoint = ep; return jd; }
+    if (jd && jd.Items) { _rktEndpoint = ep; _rktOk = true; return jd; }
   }
   return null;
 }
@@ -1817,7 +1818,7 @@ function render() {
         + '<a class="amz" href="' + amazonUrl(w.name) + '" target="_blank" rel="noopener noreferrer">Amazonで探す</a>'
         + "</div></div>";
     });
-    if (!S.loading && _rktFailed) {
+    if (!S.loading && _rktFailed && !_rktOk) {
       h += '<div class="notice">楽天APIに接続できませんでした。アプリIDと「許可されたウェブサイト」の設定をご確認ください（下のリンクは通常の検索になります）。</div>';
     }
     if (!S.loading && !S.wines.length) {
@@ -1873,7 +1874,7 @@ async function recommend(excludeList) {
   }
 
   // 確認中の画面を表示
-  _rktFailed = false;
+  _rktFailed = false; _rktOk = false;
   S.loading = true; S.step = 6; S.wines = [];
   render(); window.scrollTo(0, 0);
 
