@@ -1490,8 +1490,9 @@ const WINE_DB = [
 // 空文字("")のままなら通常の検索リンクとして動作します
 // ============================================
 const AFFILIATE = {
-  rakutenId: "557bdb12.7c2cb6b9.557bdb13.16df9114",
-  rakutenAppId: "663fb00c-2fbf-4fb4-ab7d-cbb147d5e01d",   // 楽天ウェブサービスのアプリID（実在確認・実売価格の取得に使用）   // 例: "1a2b3c4d.5e6f7g8h.1a2b3c4d.5e6f7g8i"
+  rakutenId: "",
+  rakutenAppId: "",       // 楽天ウェブサービスの「アプリID」
+  rakutenAccessKey: "",   // 楽天ウェブサービスの「アクセスキー」   // 例: "1a2b3c4d.5e6f7g8h.1a2b3c4d.5e6f7g8i"
   amazonTag: "",   // 例: "yourname-22"
 };
 
@@ -1605,7 +1606,12 @@ function amazonUrl(name) {
 }
 
 // ---------- 楽天APIによる実在確認 ----------
-const RAKUTEN_API = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706";
+const RAKUTEN_ENDPOINTS = [
+  "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260701",
+  "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706"
+];
+let _rktEndpoint = null;     // 成功したエンドポイントを記憶
+let _rktFailed = false;      // 接続不能フラグ
 let _jsonpSeq = 0;
 
 function jsonp(base, params, timeoutMs) {
@@ -1623,16 +1629,33 @@ function jsonp(base, params, timeoutMs) {
     sc.src = base + "?" + qs + "&callback=" + cb;
     sc.onerror = () => { cleanup(); resolve(null); };
     document.head.appendChild(sc);
-    setTimeout(() => { cleanup(); resolve(null); }, timeoutMs || 6000);
+    setTimeout(() => { cleanup(); resolve(null); }, timeoutMs || 7000);
   });
+}
+
+// fetch(CORS)→JSONP の順で試し、複数エンドポイントを順に当たる
+async function callRakuten(params) {
+  const qs = Object.keys(params).map(k => k + "=" + encodeURIComponent(params[k])).join("&");
+  const list = _rktEndpoint ? [_rktEndpoint]
+    : (AFFILIATE.rakutenAccessKey ? RAKUTEN_ENDPOINTS : RAKUTEN_ENDPOINTS.slice().reverse());
+  for (const ep of list) {
+    try {
+      const res = await fetch(ep + "?" + qs);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.Items) { _rktEndpoint = ep; return data; }
+      }
+    } catch (e) { /* CORS等は無視してJSONPへ */ }
+    const jd = await jsonp(ep, params, 7000);
+    if (jd && jd.Items) { _rktEndpoint = ep; return jd; }
+  }
+  return null;
 }
 
 // 商品名がそのワインらしいかを簡易判定
 function looksLikeMatch(itemName, wine) {
   const n = itemName || "";
-  // ノンアルコール等は除外
   if (/ノンアル|アルコールフリー|ノン・アル|微アルコール/.test(n)) return false;
-  // ワイン名から特徴的なトークン（2文字以上）を取り出し、半分以上含まれていればOK
   const tokens = wine.name.replace(/[・（）()]/g, " ").split(/\s+/).filter(t => t.length >= 2);
   if (!tokens.length) return true;
   let hit = 0;
@@ -1640,7 +1663,7 @@ function looksLikeMatch(itemName, wine) {
   return hit / tokens.length >= 0.5;
 }
 
-// 1本ぶんの実在確認。見つかれば実売情報を返す
+// 1本ぶんの実在確認
 async function verifyWine(wine) {
   if (!AFFILIATE.rakutenAppId) return null;
   const kw = wine.name.replace(/[・]/g, " ");
@@ -1655,9 +1678,11 @@ async function verifyWine(wine) {
     sort: "+itemPrice",
     imageFlag: 1
   };
+  if (AFFILIATE.rakutenAccessKey) params.accessKey = AFFILIATE.rakutenAccessKey;
   if (AFFILIATE.rakutenId) params.affiliateId = AFFILIATE.rakutenId;
-  const data = await jsonp(RAKUTEN_API, params, 6000);
-  if (!data || !data.Items || !data.Items.length) return null;
+  const data = await callRakuten(params);
+  if (!data) { _rktFailed = true; return null; }
+  if (!data.Items || !data.Items.length) return null;
   const items = data.Items.map(x => x.Item ? x.Item : x);
   const hit = items.find(it => looksLikeMatch(it.itemName, wine));
   if (!hit) return null;
@@ -1792,6 +1817,9 @@ function render() {
         + '<a class="amz" href="' + amazonUrl(w.name) + '" target="_blank" rel="noopener noreferrer">Amazonで探す</a>'
         + "</div></div>";
     });
+    if (!S.loading && _rktFailed) {
+      h += '<div class="notice">楽天APIに接続できませんでした。アプリIDと「許可されたウェブサイト」の設定をご確認ください（下のリンクは通常の検索になります）。</div>';
+    }
     if (!S.loading && !S.wines.length) {
       h += '<div class="notice">条件に合う在庫が楽天で見つかりませんでした。条件を変えてお試しください。</div>';
     }
@@ -1845,6 +1873,7 @@ async function recommend(excludeList) {
   }
 
   // 確認中の画面を表示
+  _rktFailed = false;
   S.loading = true; S.step = 6; S.wines = [];
   render(); window.scrollTo(0, 0);
 
